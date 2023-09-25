@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Admin Sign up">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="images/favicon.png">
+    <!-- Site Title  -->
+    <title>Admin - Sign Up</title>
+    <!-- Vendor Bundle CSS -->
+    <link rel="stylesheet" href="/css/vendor.bundle7500.css?ver=103">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="/css/style7500.css?ver=103">
+
+</head>
+
+<body class="page-ath">
+
+    <div class="page-ath-wrap">
+        <div class="page-ath-content">
+            <div class="page-ath-header">
+                <a href="index.html" class="page-ath-logo"><img src="/images/logo.png" srcset="images/logo2x.png 2x"
+                        alt="logo"></a>
+            </div>
+            <div class="page-ath-form">
+                <h2 class="page-ath-heading">Admin Sign up <small>Create New Admin Account</small></h2>
+                <form name="signupForm" method="post" action="/admin/AdminSignUpData" onsubmit="return validateForm()">
+                    <div class="input-item">
+                        <input type="text" placeholder="Your Name" name="name" class="input-bordered">
+                    </div>
+                    <div class="input-item">
+                        <input type="text" placeholder="Your Email" name="email" class="input-bordered">
+                    </div>
+                    <div class="input-item">
+                        <input type="password" placeholder="Password" name="password" class="input-bordered">
+                    </div>
+                    <div class="input-item">
+                        <input type="password" placeholder="Repeat Password" name="confirmPassword"
+                            class="input-bordered">
+                    </div>
+                    <button class="btn btn-primary btn-block">Create Admin Account</button>
+                </form>
+                <div class="gaps-2x"></div>
+                <div class="gaps-2x"></div>
+            </div>
+            <div class="page-ath-footer">
+              
+            </div>
+        </div>
+        <div class="page-ath-gfx">
+            <div class="w-100 d-flex justify-content-center">
+                <div class="col-md-8 col-xl-5">
+                    <img src="/images/ath-gfx.png" alt="image">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript (include all script here) -->
+    <script src="/js/jquery.bundle7500.js?ver=103"></script>
+    <script src="/js/script7500.js?ver=103"></script>
+    <script>
+        function validateForm() {
+            var name = document.forms["signupForm"]["name"].value; // Corrected field name
+            var email = document.forms["signupForm"]["email"].value;
+            var password = document.forms["signupForm"]["password"].value;
+            var confirmPassword = document.forms["signupForm"]["confirmPassword"].value;
+    
+            if (name === "" || email === "" || password === "" || confirmPassword === "") {
+                alert("All fields are required");
+                return false;
+            }
+    
+            if (password !== confirmPassword) {
+                alert("Passwords do not match");
+                return false;
+            }
+    
+            return true; // Form is valid
+        }
+    </script>
+    
+</body>
+
+<!-- Mirrored from ico.pjaguar.com/sign-up.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 14 Aug 2023 06:51:15 GMT -->
+
+</html>

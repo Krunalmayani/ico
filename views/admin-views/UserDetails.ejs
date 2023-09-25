@@ -1,0 +1,121 @@
+<%- include('header') %>
+    <div class="page-content">
+        <div class="container">
+            <div class="card content-area">
+                <div class="card-innr card-innr-fix">
+                    <div class="card-head d-flex justify-content-between align-items-center">
+                        <h4 class="card-title mb-0">User Details</h4>
+                        <div class="d-flex align-items-center guttar-20px">
+                            <div class="flex-col d-sm-block d-none">
+                                <a href="/admin/Alluser" class="btn btn-sm btn-auto btn-primary"><em
+                                        class="fas fa-arrow-left mr-3"></em>Back</a>
+                            </div>
+                            <div class="flex-col d-sm-none">
+                                <a href="user-list.html" class="btn btn-icon btn-sm btn-primary"><em
+                                        class="fas fa-arrow-left"></em></a>
+                            </div>
+                            <div class="relative d-inline-block">
+                                <a href="#" class="btn btn-dark btn-sm btn-icon toggle-tigger"><em
+                                        class="ti ti-more-alt"></em></a>
+                                <div class="toggle-class dropdown-content dropdown-content-top-left">
+                                    <ul class="dropdown-list">
+                                        <li><a href="#"><em class="far fa-envelope"></em> Send Mail</a></li>
+                                        <li><a href="#"><em class="fas fa-shield-alt"></em> Reset Pass</a></li>
+                                        <li><a href="/admin/UserStatus/<%=data.id%>"><em class="fas fa-ban"></em> Suspend</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gaps-1-5x"></div>
+                    <div class="data-details d-md-flex">
+                        <div class="fake-class">
+                            <span class="data-details-title">Token Details</span>
+                            <span class="data-details-info large">10,000</span>
+                        </div>
+                        <div class="fake-class">
+                            <span class="data-details-title">Contributed</span>
+                            <span class="data-details-info large">10 <small>ETH</small></span>
+                        </div>
+                        <div class="fake-class">
+                            <span class="data-details-title"> Status</span>
+                            <% if (data.status===true ) { %>
+                                <span class="dt-status-md badge badge- badge-success badge-md">Active</span>
+                                <% } else if (data.status===false ) { %>
+                                    <span class="dt-status-md badge badge- badge-danger badge-md">Suspend</span>
+                                    <% } %>
+                        </div>
+                        <ul class="data-vr-list">
+                            <li>
+                                <div class="data-state data-state-sm data-state-approved"></div> Email
+                            </li>
+                            <% if (data.Kyc_id && data.Kyc_id.Status === 'Pending') { %>
+                                <li>
+                                    <div class="data-state data-state-sm data-state-pending"></div> KYC
+                                </li>
+                            <% } else if (data.Kyc_id && data.Kyc_id.Status === 'Approved') { %>
+                                <li>
+                                    <div class="data-state data-state-sm data-state-approved"></div> KYC
+                                </li>
+                            <% } else if (data.Kyc_id && data.Kyc_id.Status === 'Cancelled') { %>
+                                <li>
+                                    <div class="data-state data-state-sm data-state-pending"></div> KYC
+                                </li>
+                            <% } else { %>
+                                <li>
+                                    <div class="data-state data-state-sm data-state-pending"></div>No KYC
+                                </li>
+                            <% } %>
+                            
+                        </ul>
+                    </div>
+                    <div class="gaps-3x"></div>
+                    <h6 class="card-sub-title">User Information</h6>
+                    <ul class="data-details-list">
+                        <li>
+                            <div class="data-details-head">Full Name</div>
+                            <div class="data-details-des">
+                                <%= data.Fname %>
+                                    <%= data.Lname %>
+                            </div>
+                        </li><!-- li -->
+                        <li>
+                            <div class="data-details-head">Surname</div>
+                            <div class="data-details-des">
+                                <%= data.Lname %>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="data-details-head">Email Address</div>
+                            <div class="data-details-des">
+                                <%= data.email %>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="data-details-head">Mobile Number</div>
+                            <div class="data-details-des">
+                                <%= data.phone %>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="data-details-head">Date of Birth</div>
+                            <div class="data-details-des">
+                                <% if (data.Kyc_id && data.Kyc_id.DOB) { %>
+                                    <%= formattedDOB %>
+                                <% } else { %>
+                                    No Data Found
+                                <% } %>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="data-details-head">Country</div>
+                            <div class="data-details-des">
+                                <%= data.country %>
+                            </div>
+                        </li><!-- li -->
+                    </ul>
+                </div><!-- .card-innr -->
+            </div>
+        </div>
+    </div>
+    <%- include('footer') %>

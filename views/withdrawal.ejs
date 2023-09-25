@@ -1,0 +1,166 @@
+<style>
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
+</style>
+<%- include('header') %>
+    <div class="page-content">
+        <div class="container">
+            <div class="card content-area">
+                <div class="card-innr">
+                    <div class="card-head">
+                        <h4 class="card-title">Withdrawal</h4>
+                        <p><b>Note:</b> There are many wallets compatible with ERC-20 tokens, which are commonly used
+                            for storing and managing Ethereum-based tokens. Some of the popular ERC-20 compatible
+                            wallets include:
+                            MetaMask, MyEtherWallet (MEW), Trust Wallet, Ledger Live, Trezor Wallet, Infinito Wallet.
+                        <p>
+                            Withdrawal requests must be approved by the Administrator and will transfer within 24 hours.
+                        </p>
+                        </p>
+                    </div>
+                    <div class="row d-flex justify-content-end p-4 guttar-vr-40px">
+
+                        <div class="col-sm-6 probtn col-lg-3"><a href="#" data-toggle="modal" data-target="#modal-large"
+                                class="btn btn-primary">Add Withdrawal Requests</a></div>
+                    </div>
+                    <div class="modal fade" id="modal-large" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em
+                                        class="ti ti-close"></em></a>
+                                <div class="popup-body popup-body-lg">
+                                    <div class="">
+                                        <div class="content-area card">
+                                            <div class="card-innr card-innr-fix">
+                                                <div class="card-head">
+                                                    <h6 class="card-title">Withdrawal Requests</h6>
+                                                </div>
+                                                <div class="gaps-1x"></div>
+                                                <form action="/addWithdrawalRequest" method="post">
+                                                    <input type="hidden" value="<%= user._id %>" name="User_id">
+                                                    <div class="input-item input-with-label">
+                                                        <label class="input-item-label text-exlight">Compatible Ethereum
+                                                            Address</label>
+                                                        <input class="input-bordered" type="text"
+                                                            name="Ethereum_Address" id="ethereumAddressInput" required>
+                                                    </div>
+                                                    <div class="input-item input-with-label">
+                                                        <label class="input-item-label text-exlight">Withdrawal Tokens
+                                                            Amount</label>
+                                                        <input class="input-bordered" type="text"
+                                                            name="Withdrawal_Tokens" id="withdrawalTokens"
+                                                            value="<%= data.token_balance %>"
+                                                            onchange="updateRemainingToken()">
+                                                    </div>
+                                                    <div class="input-item input-with-label">
+                                                        <label class="input-item-label text-exlight">Remaining Token in
+                                                            your wallet</label>
+                                                        <input class="input-bordered" type="number" id="Remaining_Token"
+                                                            value="<%= data.token_balance %>" disabled>
+                                                    </div>
+                                                    <button class="btn btn-primary" type="submit">Add Request</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                        <table id="DataTables_Table_0" class="data-table dt-init user-tnx dataTable no-footer" role="grid"
+                            aria-describedby="DataTables_Table_0_info">
+                            <thead>
+                                <tr class="data-item data-head">
+                                    <th class="data-col dt-tnxno" scope="col">Date</th>
+                                    <th class="data-col dt-tnxno" scope="col">ETH Address</th>
+                                    <th class="data-col dt-tnxno" scope="col">Withdrawal Tokens</th>
+                                    <th class="data-col dt-tnxno" scope="col">Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <% for (var i of Withdrawal) { %>
+                                    <tr class="data-item">
+                                        <td class="data-col dt-tnxno">
+                                            <div class="d-flex align-items-center">
+                                                <div class="fake-class">
+                                                    <span class="lead tnx-id">
+                                                        <%= i.Withdrawal_date.toDateString() %>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="data-col dt-token d-flex justify-content-between">
+                                            <span class="lead ethreiumhide token-amount">
+                                                <%= i.Ethereum_Address %>
+                                            </span><span class="lead tokenhide token-amount" id="ethereumvalstart_<%= i.id %>"></span>
+                                            <span class="lead tokenhide token-amount">....</span>
+                                            <span class="lead tokenhide token-amount" id="ethereumval_<%= i.id %>"></span>
+                                            
+                                        </td>
+                                        <td class="data-col dt-usd-amount">
+                                            <span class="lead amount-pay">
+                                                <%= i.Withdrawal_Tokens %>
+                                            </span>
+                                            <span class="sub sub-symbol">
+                                                <%= webSettingData.Tokensymbol %>
+                                            </span>
+                                        </td>
+                                        <td class="data-col dt-type">
+                                            <% if (i.Status==='Pending' ) { %>
+                                                <span class="dt-status-md badge btn btn-warning badge-md">Pending</span>
+                                                <span
+                                                    class="dt-status-sm badge badge-sq btn btn-warning badge-md">P</span>
+                                                <% } else if (i.Status==='Approved' ) { %>
+                                                    <span
+                                                        class="dt-status-md badge btn btn-success badge-md">Approved</span>
+                                                    <span
+                                                        class="dt-status-sm badge badge-sq btn btn-success badge-md">A</span>
+                                                    <% } else if (i.Status==='Rejected' ) { %>
+                                                        <span
+                                                            class="dt-status-md badge btn btn-danger badge-md">Rejected</span>
+                                                        <span
+                                                            class="dt-status-sm badge badge-sq btn btn-danger badge-md">R</span>
+                                                        <% } %>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('footer') %>
+        <script>
+            function updateRemainingToken() {
+                const withdrawalAmount = parseFloat(document.getElementById('withdrawalTokens').value);
+                const remainingAmount = parseFloat(document.getElementById('Remaining_Token').value);
+                const newRemainingAmount = parseFloat(<%= data.token_balance %>) - withdrawalAmount;
+                const limitedNewRemainingAmount = parseFloat(newRemainingAmount.toFixed(8));
+                document.getElementById('Remaining_Token').value = limitedNewRemainingAmount;
+            }
+
+            window.addEventListener("load", function () {
+                updateRemainingToken();
+                <% for (var i of Withdrawal) { %>
+                    ethereumtextloaded('<%= i.Ethereum_Address %>', 'ethereumvalstart_<%= i.id %>', 'ethereumval_<%= i.id %>');
+                <% } %>
+            });
+
+            function ethereumtextloaded(ethereumAddress, elementId, elementIdend) {
+                console.log(ethereumAddress);
+                const ethereumdatastart = ethereumAddress.slice(0, 6);
+                const ethereumdataend = ethereumAddress.slice(-2);
+                console.log(ethereumdatastart, ethereumdataend);
+                document.getElementById(elementId).innerHTML = ethereumdatastart;
+                document.getElementById(elementIdend).innerHTML = ethereumdataend;
+            }
+            
+        </script>

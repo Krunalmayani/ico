@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="Softnio">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Admin Login">
+	<!-- Fav Icon  -->
+	<link rel="shortcut icon" href="images/favicon.png">
+	<!-- Site Title  -->
+	<title>Admin Login</title>
+	<!-- Vendor Bundle CSS -->
+	<link rel="stylesheet" href="/css/vendor.bundle7500.css?ver=103">
+	<!-- Custom styles for this template -->
+	<link rel="stylesheet" href="/css/style7500.css?ver=103">
+	
+</head>
+
+<body class="page-ath">
+    
+    <div class="page-ath-wrap">
+        <div class="page-ath-content">
+            <div class="page-ath-header">
+                <a href="#" class="page-ath-logo"><img src="/images/logo.png" srcset="http://localhost:8001/uploads/WebDocs/DashboardLogo-1693999891329.png" alt="logo"></a>
+            </div>
+            <div class="page-ath-form">
+                <h2 class="page-ath-heading">Admin Login </h2>
+                <form name="loginForm" action="/admin/AdminSession" method="post" onsubmit="return validateLoginForm()">
+                    <div class="input-item">
+                        <input type="text" placeholder="Your Email" name="email" class="input-bordered">
+                    </div>
+                    <div class="input-item">
+                        <input type="password" placeholder="Password" name="password" class="input-bordered">
+                    </div>
+                    <input type="submit" class="btn btn-primary btn-block" value="Login">
+                </form>
+              
+
+           
+                <div class="gaps-2x"></div>
+                <div class="gaps-2x"></div>
+                
+            </div>
+            <div class="page-ath-footer">
+                
+            </div>
+        </div>
+        <div class="page-ath-gfx">
+           <div class="w-100 d-flex justify-content-center">
+               <div class="col-md-8 col-xl-5">
+                   <img src="/images/ath-gfx.png" alt="image">
+               </div>
+           </div>            
+        </div>
+    </div>
+
+	<!-- JavaScript (include all script here) -->
+	<script src="js/jquery.bundle7500.js?ver=103"></script>
+	<script src="js/script7500.js?ver=103"></script>
+    
+    <script>
+        function validateLoginForm() {
+            var email = document.forms["loginForm"]["email"].value;
+            var password = document.forms["loginForm"]["password"].value;
+
+            if (email === "" || password === "") {
+                alert("Both email and password are required");
+                return false;
+            }
+
+            return true; // Form is valid
+        }
+    </script>
+</body>
+
+<!-- Mirrored from ico.pjaguar.com/sign-in.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 14 Aug 2023 06:51:13 GMT -->
+</html>

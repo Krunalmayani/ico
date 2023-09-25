@@ -1,0 +1,116 @@
+<%- include('header') %>
+
+
+  <div class="page-content">
+    <div class="container">
+      <div class="card content-area">
+        <div class="card-innr">
+          <div class="card-head">
+            <h4 class="card-title">Referral</h4>
+            <div class="content-area card">
+              <div class="card-innr">
+                <div class="card-head">
+                  <p style="font-size: 20px;">Each member who creates an account receives a unique referral link to share with friends and family and receive a bonus - <%= webSettingData.Referral_Commission %>% of the value of their contribution.</p>
+                </div>
+                <div class="card-text">
+                  <p>The referral link may be used during a token contribution, both in the pre-sale and the ICO.</p>
+                    <p> Imagine giving your unique referral link to your crypto-friend and he or she contributes tokens using your link, the bonus will be sent to your account automatically. The strategy is simple: the more links you send to your colleagues, family and friends - the more tokens you may earn!</p>
+                    <p>In the table below you can check when your referral link has been used to contribute tokens, and who has made the contribution.</p>
+                </div>
+                <div class="referral-form">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 font-bold">Referral URL</h5>
+                    <a href="#" class="link link-primary link-ucap">See Your referral</a>
+                  </div>
+                  <div class="copy-wrap mgb-1-5x mgt-1-5x">
+                    <span class="copy-feedback"></span>
+                    <em class="fas fa-link"></em>
+                    <input type="text" class="copy-address"
+                    value="<%= referralCodeUrl %>" disabled>
+                    <button class="copy-trigger copy-clipboard"
+                    data-clipboard-text="<%= referralCodeUrl %>"><em
+                        class="ti ti-files"></em></button>
+                  </div><!-- .copy-wrap -->
+                </div>
+                <ul class="share-links">
+                  <li>Share With :</li>
+                  <li><a href="https://twitter.com/intent/tweet?url=<%= referralCodeUrl %>&text=ICOadm.in%20ICO"><em class="fab fa-twitter"></em></a></li>
+                  <li><a href="https://www.facebook.com/sharer.php?u=<%= referralCodeUrl %>"><em class="fab fa-facebook-f"></em></a></li>
+                  <li><a href="https://www.linkedin.com/shareArticle?url=<%= referralCodeUrl %>"><em class="fab fa-linkedin-in"></em></a></li>
+                  <li><a href="https://api.whatsapp.com/send?text=ICOadm.in%20ICO%20<%= referralCodeUrl %>"><em class="fab fa-whatsapp"></em></a></li>
+                  <li><a href="https://t.me/share/url?url=<%= referralCodeUrl %>&text=ICOadm.in%20ICO"><em class="fab fa-telegram"></em></a></li>
+                  <li><a href="https://line.me/R/msg/text/?ICOadm.in%20ICO%20<%= referralCodeUrl %>"><em class="fab fa-line"></em></a></li>
+                  <li><a href="https://vk.com/share.php?url=<%= referralCodeUrl %>"><em class="fab fa-vk"></em></a></li>
+                </ul>
+                
+              </div>
+            </div>
+          </div>
+          <h4 class="card-title">Invited User</h4>
+          <table class="data-table inviteuser dt-init user-tnx">
+            <thead>
+
+              <tr class="data-item data-head">
+                <th class="data-col">Date</th>
+                <th class="data-col">User</th>
+                <th class="data-col">Email</th>
+                <th class="data-col">Usd($)</th>
+                <th class="data-col">Purchase Token</th>
+                <th class="data-col">Commission</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <%for(var i of referralCodeData){%>
+                <tr class="data-item">
+                  <td class="data-col dt-tnxno">
+                    <div class="d-flex align-items-center">
+                      <div class="fake-class">
+                        <span class="lead tnx-id">
+                          <%= i.referral_Date.toDateString() %>
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="data-col dt-token">
+                    <span class="lead token-amount">
+                      <%= i.referred_Userid.Fname %>
+                        <%= i.referred_Userid.Lname %>
+                    </span>
+                  </td>
+                  <td class="data-col dt-amount">
+                    <span class="lead amount-pay">
+                      <%= i.referred_Userid.email %>
+                    </span>
+                  </td>
+
+                  <td class="data-col dt-usd-amount">
+                    <span class="lead amount-pay"><%= i.Usd %></span>
+                  </td>
+                  <td class="data-col dt-account">
+                    <span class="lead user-info">
+                      <%= i.purchase_token %>
+                    </span>
+                    <span class="sub sub-symbol">
+                      <%= webSettingData.Tokensymbol %>
+                    </span>
+                  </td>
+                  <td class="data-col dt-account">
+                    <span class="lead user-info">
+                      <%= i.Commission %>
+                    </span>
+                    <span class="sub sub-symbol">
+                      <%= webSettingData.Tokensymbol %>
+                    </span>
+                  </td>
+
+                </tr>
+                <%}%>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%- include('footer') %>

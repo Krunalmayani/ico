@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Trevaun Solomon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Admin Dashboard - Admin Dashboard : Manage ICO">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="<%= webSettingData.FaviconImage %>">
+    <!-- Site Title  -->
+    <title>Admin Dashboard - Admin Dashboard : Manage ICO</title>
+    <!-- Vendor Bundle CSS -->
+    <link rel="stylesheet" href="/css/vendor.bundle7500.css?ver=103">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body class="page-user">
+    <div class="topbar-wrap">
+        <div class="topbar is-sticky">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <ul class="topbar-nav d-lg-none">
+                        <li class="topbar-nav-item relative">
+                            <a class="toggle-nav" href="#">
+                                <div class="toggle-icon">
+                                    <span class="toggle-line"></span>
+                                    <span class="toggle-line"></span>
+                                    <span class="toggle-line"></span>
+                                    <span class="toggle-line"></span>
+                                </div>
+                            </a>
+                        </li><!-- .topbar-nav-item -->
+                    </ul><!-- .topbar-nav -->
+                    <a class="topbar-logo" href="/dashboard">
+                        <img src="<%= webSettingData.DashboardLogo %>" srcset="images/logo-light2x.png 2x" alt="logo">
+                    </a>
+                    <!-- <a class="topbar-logo" href="/dashboard">
+                        <img src="<%= webSettingData.DashboardLogo %>" srcset="http://localhost:8001/uploads/WebDocs/DashboardLogo-1693999891329.png
+                        " alt="logo">
+                    </a> -->
+                    <ul class="topbar-nav">
+                        <li class="topbar-nav-item relative">
+                            <%if(locals.user){%>
+                                <span class="user-welcome d-none d-lg-inline-block">Admin <%= locals.user.name %></span>
+                                <%}%>
+                                    <a class="toggle-tigger user-thumb" href="#"><em class="ti ti-user"></em></a>
+                                    <div
+                                        class="toggle-class dropdown-content dropdown-content-right dropdown-arrow-right user-dropdown">
+
+                                        <ul class="user-links bg-light">
+                                            <li><a href="/admin/Setting "><i class="ikon ikon-exchange"
+                                                        style="font-size: 27px;"></i>Setting </a></li>
+                                            <li><a href="/admin/logout"><i class="ti ti-power-off"></i>Logout</a></li>
+                                        </ul>
+                                    </div>
+                        </li><!-- .topbar-nav-item -->
+                    </ul><!-- .topbar-nav -->
+                </div>
+            </div>
+        </div>
+        <div class="navbar">
+            <div class="container">
+                <div class="navbar-innr">
+                    <ul class="navbar-menu">
+                        <li><a href="/admin/AdminDashbord"><em class="ikon ikon-dashboard"></em> Dashboard</a></li>
+                        <li><a href="/admin/Transactions"><em class="ikon ikon-dashboard"></em> Transactions</a></li>
+                        <li><a href="/admin/Alluser"><em class="ikon ikon-dashboard"></em> All User</a></li>
+                        <li><a href="/admin/withdrawal"><em class="ikon ikon-dashboard"></em> Withdrawal</a></li>
+                        <li><a href="/admin/kycList"><em class="ikon ikon-dashboard"></em> KYC List</a></li>
+                        <li><a href="/admin/IcoSto"><em class="ikon ikon-dashboard"></em>ICO/STO Stages</a></li>
+                        <li><a href="/admin/crypto_Address"><em class="ikon ikon-dashboard"></em>Crypto Address</a></li>
+                    </ul>
+                </div><!-- .navbar-innr -->
+            </div><!-- .container -->
+        </div><!-- .navbar -->
+    </div><!-- .topbar-wrap -->

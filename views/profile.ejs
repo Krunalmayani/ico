@@ -1,0 +1,309 @@
+<%- include('header') %>
+    <style>
+        body {}
+
+        .box {
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 100%;
+            padding: 20px;
+        }
+
+        .box-image {
+            text-align: center;
+        }
+
+        .box-image img {
+            width: 250px;
+            /* Set the image size to 500px */
+            max-width: 100%;
+            height: auto;
+            /* Maintain aspect ratio */
+        }
+
+        .box-content {
+            flex: 1;
+            /* Allow content to expand and take available space */
+            padding: 20px;
+            text-align: center;
+        }
+
+        .box-content h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .box-content p {
+            font-size: 14px;
+        }
+
+        .box-input {
+            flex: 1;
+            /* Allow input to expand and take available space */
+            padding: 20px;
+        }
+
+        input[type="number"] {
+            /* width: 100%; */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            font-size: 14px;
+            width: 60%;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            appearance: none;
+            margin: 0;
+        }
+    </style>
+    <div class="page-content">
+        <div class="container">
+            <%if(flash.success && flash.success.length> 0){%>
+                <div class="alert form-control" style="padding-left: 25px; color: black; padding-top: 8px;">
+                    <%=flash.success%>
+                </div>
+                <%}%>
+                    <div class="row">
+                        <div class="main-content col-lg-8">
+                            <div class="content-area card">
+                                <div class="card-innr">
+                                    <div class="card-head">
+                                        <h4 class="card-title">Profile Details</h4>
+                                    </div>
+                                    <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-toggle="tab" href="#personal-data">Personal
+                                                Data</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#password">Password</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content" id="profile-details">
+                                        <div class="tab-pane fade show active" id="personal-data">
+                                            <form method="post" action="/userProfileUpdate">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="input-item input-with-label">
+                                                            <label for="full-name" class="input-item-label">First
+                                                                Name</label>
+                                                            <input class="input-bordered" type="text" id="full-name"
+                                                                name="Fname" value="<%= profile.Fname%>">
+                                                            <input class="input-bordered" type="hidden" id="id"
+                                                                name="id" value="<%= profile.id%>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-item input-with-label">
+                                                            <label for="full-name" class="input-item-label">Last
+                                                                Name</label>
+                                                            <input class="input-bordered" type="text" id="full-name"
+                                                                name="Lname" value="<%= profile.Lname%>">
+                                                        </div><!-- .input-item -->
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-item input-with-label">
+                                                            <label for="email-address" class="input-item-label">Email
+                                                                Address</label>
+                                                            <input class="input-bordered" type="text" id="email-address"
+                                                                name="email" value="<%= profile.email%>" disabled>
+                                                        </div><!-- .input-item -->
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-item input-with-label">
+                                                            <label for="mobile-number" class="input-item-label">Mobile
+                                                                Number</label>
+                                                            <input class="input-bordered" type="text" id="mobile-number"
+                                                                name="phone" value="<%= profile.phone%>">
+                                                        </div><!-- .input-item -->
+                                                    </div>
+
+                                                </div><!-- .row -->
+                                                <div class="gaps-1x"></div><!-- 10px gap -->
+                                                <div class="d-sm-flex justify-content-between align-items-center">
+                                                    <input type="submit" class="btn btn-primary" value="Update Profile"
+                                                        onclick="ss()">
+                                                    <div class="gaps-2x d-sm-none"></div>
+                                                    <span class="text-success"><em class="ti ti-check-box"></em> All
+                                                        Changes are
+                                                        saved</span>
+                                                </div>
+                                            </form><!-- form -->
+                                        </div><!-- .tab-pane -->
+                                        <!-- .tab-pane -->
+                                        <div class="tab-pane fade" id="password">
+                                            <form action="/userPasswordUpdate" method="post">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="input-item input-with-label">
+                                                            <label for="old-pass" class="input-item-label">Old
+                                                                Password</label>
+                                                            <input class="input-bordered" type="password" id="old-pass"
+                                                                name="oldPass">
+                                                        </div><!-- .input-item -->
+                                                    </div><!-- .col -->
+
+                                                </div><!-- .row -->
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="input-item input-with-label">
+                                                            <label for="new-pass" class="input-item-label">New
+                                                                Password</label>
+                                                            <input class="input-bordered" type="password" id="new-pass"
+                                                                name="newPass">
+                                                        </div><!-- .input-item -->
+                                                    </div><!-- .col -->
+                                                    <div class="col-md-6">
+                                                        <div class="input-item input-with-label">
+                                                            <label for="confirm-pass" class="input-item-label">Confirm
+                                                                New
+                                                                Password</label>
+                                                            <input class="input-bordered" type="password"
+                                                                id="confirm-pass" name="confirmPass">
+                                                        </div><!-- .input-item -->
+                                                    </div><!-- .col -->
+                                                </div><!-- .row -->
+                                                <div class="note note-plane note-info pdb-1x">
+                                                    <em class="fas fa-info-circle"></em>
+                                                    <p>Password should be minmum 8 letter and include lower and
+                                                        uppercase
+                                                        letter.
+                                                    </p>
+                                                </div>
+                                                <div class="gaps-1x"></div><!-- 10px gap -->
+                                                <div class="d-sm-flex justify-content-between align-items-center">
+                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                    <div class="gaps-2x d-sm-none"></div>
+                                                    <span class="text-success"><em class="ti ti-check-box"></em> Changed
+                                                        Password</span>
+                                                </div>
+                                            </form>
+                                        </div><!-- .tab-pane -->
+                                    </div><!-- .tab-content -->
+                                </div><!-- .card-innr -->
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="aside sidebar-right col-lg-4">
+
+                            <div class="referral-info card">
+                                <div class="card-innr">
+                                    <h6 class="card-title card-title-sm">Earn with Referral</h6>
+                                    <p class=" pdb-0-5x">Invite your friends &amp; family and receive a <strong><span
+                                                class="text-primary">bonus - <%= webSettingData.Referral_Commission %>
+                                                    %</span>
+                                            of the value of contribution.</strong>
+                                    </p>
+                                    <div class="copy-wrap mgb-0-5x">
+                                        <span class="copy-feedback"></span>
+                                        <em class="fas fa-link"></em>
+                                        <input type="text" class="copy-address" value="<%= referralCodeUrl %>">
+                                        <button class="copy-trigger copy-clipboard"
+                                            data-clipboard-text="<%= referralCodeUrl %>"><em
+                                                class="ti ti-files"></em></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-area card">
+                            <div class="card-innr">
+                                <div class="card-head">
+                                    <h4 class="card-title">Two-Factor Verification</h4>
+                                </div>
+                                <p>Two-factor authentication is a method for protection your web account. When it is
+                                    activated you need to enter not only your password, but also a special code. You can
+                                    receive this code by in mobile app. Even if third person will find your password,
+                                    then can't access with that code.</p>
+                                <div class="d-sm-flex justify-content-between align-items-center pdt-1-5x">
+                                    <span class="text-light ucap d-inline-flex align-items-center">
+                                        <span class="mb-0"><small>Current Status:</small></span>
+                                        <%if(locals.user.two_fa_verification == true){ %> 
+                                        <span class="badge badge-success ml-2">Enabled</span>
+                                        <%} else{%>
+                                        <span class="badge badge-disabled ml-2">Disabled</span>
+                                        <%}%>
+                                    </span>
+                                    <div class="gaps-2x d-sm-none"></div>
+
+                                    <% if(locals.user.two_fa_verification==true){ %>
+                                        <div class="col-sm-6 col-lg-3" style="display: none;">
+                                            <button data-toggle="modal" data-target="#modal-large"
+                                                class="btn btn-primary" id="fetchDataButton">Enable 2FA
+                                            </button>
+                                        </div>
+                                        <% }else{ %>
+                                            <div class="col-sm-6 col-lg-3" style="display: block;">
+                                                <button data-toggle="modal" data-target="#modal-large"
+                                                    class="btn btn-primary" id="fetchDataButton">Enable 2FA
+                                                </button>
+                                            </div>
+                                            <% } %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="modal-large" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-lg modal-dialog-centered">
+                                <div class="modal-content">
+                                    <a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em
+                                            class="ti ti-close"></em></a>
+                                    <form action="/twofa_verification" method="post">
+                                        <div class="box">
+                                            <div class="box-image">
+                                                <p><b>Scan this code with the app</b></p>
+                                                <img id="qrcode" alt="QRcode">
+                                            </div>
+                                            <div class="box-content">
+                                                <h2>Set Up Two-Factor Authentication</h2>
+                                                <p>Download an authenticator app</p>
+                                                <p>Android, iOS, and Blackberry-Google Authenticator</p>
+                                                <p>Windows Phone - Authenticator</p>
+                                                <input type="number" maxlength="6" name="otp"
+                                                    placeholder="Enter 6-Digit Authentication code">
+                                                <input type="hidden" name="ascii" id="asciic">
+                                                <input type="hidden" value="<%= user._id %>" name="User_id">
+                                                <div class="mt-4">
+                                                    <button class="btn btn-primary" type="submit">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#fetchDataButton').click(function () {
+                // Make an AJAX request to your route
+                $.ajax({
+                    type: 'GET',
+                    url: '/your-fetch-route',
+                    success: function (data) {
+                        if (data.qData) {
+                            $('#qrcode').attr('src', data.qData);
+                        }
+                        if (data.secret && data.secret.ascii) { // Check if secret.ascii exists
+                            $('#asciic').val(data.secret.ascii); // Set the input value
+                        }
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+    <%- include('footer') %>

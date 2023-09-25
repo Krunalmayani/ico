@@ -1,0 +1,52 @@
+<%- include('header') %>
+    <div class="page-content">
+        <div class="container">
+            <div class="content-area card">
+                <div class="card-innr card-innr-fix2">
+                    <div class="card-head">
+                        <h6 class="card-title">Edit Crypto Address</h6>
+                    </div>
+                    <div class="gaps-1x"></div>
+                    <div class="row d-flex content-center">
+                        <div class="col-md-6">
+                            <form action="/admin/editecryptoAddress/<%=data._id%>" method="post">
+                                <div class="input-item input-with-label">
+                                    <input type="hidden" value="<%=data._id%>">
+                                    <label class="input-item-label">Crypto Address</label>
+                                    <input class="input-bordered" type="text" name="Crypto_Address"
+                                        placeholder="Type Crypto Address" value="<%=data.Crypto_Address%>">
+                                </div>
+                                <div class="input-item input-with-label">
+                                    <label class="input-item-label">Select Crypto</label>
+                                    <select class="select select-block select-bordered" name="Crypto_Type">
+                                        <option value="Bitcoin" <%=data.Crypto_Type==='Bitcoin' ? 'selected' : '' %>
+                                            >Bitcoin</option>
+                                        <option value="Ethereum" <%=data.Crypto_Type==='Ethereum' ? 'selected' : '' %>
+                                            >Ethereum</option>
+                                        <option value="USDT (ERC20)" <%=data.Crypto_Type==='USDT (ERC20)' ? 'selected'
+                                            : '' %>>USDT (ERC20)</option>
+                                        <option value="USDT (BEP20)" <%=data.Crypto_Type==='USDT (BEP20)' ? 'selected'
+                                            : '' %>>USDT (BEP20)</option>
+                                        <option value="USDT (TRC20)" <%=data.Crypto_Type==='USDT (TRC20)' ? 'selected'
+                                            : '' %>>USDT (TRC20)</option>
+                                        <option value="USDC (ERC20)" <%=data.Crypto_Type==='USDC (ERC20)' ? 'selected'
+                                            : '' %>>USDC (ERC20)</option>
+                                        <option value="Solana" <%=data.Crypto_Type==='Solana' ? 'selected' : '' %>
+                                            >Solana</option>
+                                    </select>
+
+                                </div>
+                                <div class="input-item input-with-label">
+                                    <label class="input-item-label">Block Explorer</label>
+                                    <input class="input-bordered" type="text" name="Block_explorer"
+                                        value="<%=data.Block_explorer%>">
+                                </div>
+                                <input type="submit" class="btn btn-primary" value="Update ">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('footer') %>

@@ -1,0 +1,143 @@
+<%- include('header') %>
+    <div class="page-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="content-area card">
+                        <div class="card-innr card-innr-fix">
+                            <div class="card-head">
+                                <h6 class="card-title">Web Setting</h6>
+                            </div>
+                            <div class="gaps-1x"></div>
+                            <input type="hidden" value="<%= data[0].id %>">
+                            <form action="/admin/websettingdata" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label text-exlight">Referral Commission</label>
+                                            <input class="input-bordered" type="number" name="Referral_Commission"
+                                                value="<%= data[0].Referral_Commission %>" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label text-exlight">Minimum Purchase </label>
+                                            <input class="input-bordered" type="number" name="Minimum_Purchase"
+                                                value="<%= data[0].Minimum_Purchase %>" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label text-exlight">Token Name </label>
+                                            <input class="input-bordered" type="text" name="Token_Name"
+                                                value="<%= data[0].Token_Name %>" required>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label text-exlight">Token symbol</label>
+                                            <input class="input-bordered" type="text" name="Tokensymbol"
+                                                value="<%= data[0].Tokensymbol %>" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label text-exlight">CopyRight Word</label>
+                                            <input class="input-bordered" type="text" name="CopyRightWord"
+                                                value="<%= data[0].CopyRightWord %>" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label text-exlight">Home Page Link</label>
+                                            <input class="input-bordered" type="text" name="HomePageLink"
+                                                value="<%= data[0].HomePageLink %>" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label text-exlight">Private Policy Link</label>
+                                            <input class="input-bordered" type="text" name="Private_Policy"
+                                                value="<%= data[0].Private_Policy %>" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label text-exlight">Terms And Conditions
+                                                Link</label>
+                                            <input class="input-bordered" type="text" name="TermsAndConditions"
+                                                value="<%= data[0].TermsAndConditions %>" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label text-exlight">White Paper Link </label>
+                                            <input class="input-bordered" type="text" name="WhitePaperLink"
+                                                value="<%= data[0].WhitePaperLink %>" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label text-exlight">Favicon Image </label>
+                                            <div >
+                                                <input class="input-bordered" type="file" name="FaviconImage"
+                                                    value="<%= data[0].FaviconImage %>" >
+                                                <img src="<%= data[0].FaviconImage %> " width="100px" height="100px"
+                                                    alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label text-exlight">Dashboard Logo</label>
+                                            <input class="input-bordered" type="file" name="DashboardLogo"
+                                                value="<%= data[0].DashboardLogo %>" >
+                                            <img src="<%= data[0].DashboardLogo %>" alt="" width="200px" height="100px">
+                                        </div>
+                                        <button class="btn btn-primary" type="submit">Submit</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label text-exlight">Sign Up/Login Logo </label>
+                                            <input class="input-bordered" type="file" name="SignUpLoginLogo"
+                                                value="<%= data[0].SignUpLoginLogo %>" >
+                                            <img src="<%= data[0].SignUpLoginLogo %>" alt="" width="250px"
+                                                height="100px">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gaps-1x"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- .container -->
+    </div><!-- .page-content -->
+
+    <%- include('footer') %>
+    <script>
+        // JavaScript function to set the initial value of the file input
+        function updateFaviconInput() {
+            const faviconInput = document.getElementById('faviconInput');
+            const faviconImagePath = '<%= data.FaviconImage %>';
+            faviconInput.value = faviconImagePath; // Set the value of the file input
+        }
+    
+        // Call the function when the page loads
+        window.addEventListener("load", function () {
+            updateFaviconInput();
+        });
+    </script>

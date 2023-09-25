@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Trevaun Solomon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="User Dashboard - Buy Token using different cryptocurrency ">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="<%= webSettingData.FaviconImage %>">
+    <!-- Site Title  -->
+    <title>User Dashboard - Buy Token using different cryptocurrency
+    </title>
+    <!-- Vendor Bundle CSS -->
+    <link rel="stylesheet" href="/css/vendor.bundle7500.css?ver=103">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="/css/style.css?ver=103">
+
+</head>
+
+<body class="page-user">
+    <div class="topbar-wrap">
+        <div class="topbar is-sticky">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <ul class="topbar-nav d-lg-none">
+                        <li class="topbar-nav-item relative">
+                            <a class="toggle-nav" href="#">
+                                <div class="toggle-icon">
+                                    <span class="toggle-line"></span>
+                                    <span class="toggle-line"></span>
+                                    <span class="toggle-line"></span>
+                                    <span class="toggle-line"></span>
+                                </div>
+                            </a>
+                        </li><!-- .topbar-nav-item -->
+                    </ul><!-- .topbar-nav -->
+                    <a class="topbar-logo" href="/dashboard">
+                        <img src="<%= webSettingData.DashboardLogo %>" srcset="images/logo-light2x.png 2x" alt="logo">
+                    </a>
+                    <!-- <a class="topbar-logo" href="/dashboard">
+                        <img src="<%= webSettingData.DashboardLogo %>" srcset="http://localhost:8001/uploads/WebDocs/DashboardLogo-1693999891329.png
+                        " alt="logo">
+                    </a> -->
+                    <ul class="topbar-nav">
+                        <li class="topbar-nav-item relative">
+                            <%if(locals.user){%>
+                                <span class="user-welcome d-none d-lg-inline-block">
+                                    Wellcome User <%= locals.user.Fname %>
+                                </span>
+                                <%}%>
+                                    <a class="toggle-tigger user-thumb" href="#"><em class="ti ti-user"></em></a>
+                                    <div
+                                        class="toggle-class dropdown-content dropdown-content-right dropdown-arrow-right user-dropdown">
+                                        <div class="user-status">
+                                            <h6 class="user-status-title">Token balance</h6>
+                                            <div class="user-status-balance">
+                                                <%= locals.user.token_balance %> <small>
+                                                        <%= webSettingData.Tokensymbol %>
+                                                    </small>
+                                            </div>
+                                        </div>
+                                        <ul class="user-links">
+                                            <li><a href="/profile/<%= locals.user._id %>"><i
+                                                        class="ti ti-id-badge"></i>My Profile</a></li>
+                                            <li><a href="/Referral/<%= locals.user._id %>"><i
+                                                        class="ti ti-infinite"></i>Referral</a></li>
+                                            <li><a href="/withdrawal/<%= locals.user._id %>"><i
+                                                        class="ti ti-eye"></i>Withdrawal</a></li>
+                                        </ul>
+                                        <ul class="user-links bg-light">
+                                            <li><a href="/logout" id="logoutUSER"><i
+                                                        class="ti ti-power-off"></i>Logout</a></li>
+                                        </ul>
+                                    </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="navbar">
+            <div class="container">
+                <div class="navbar-innr">
+                    <ul class="navbar-menu">
+                        <li><a href="/dashboard"><em class="ikon ikon-dashboard"></em> Dashboard</a></li>
+                        <li><a href="/buytokens"><em class="ikon ikon-coins"></em> Buy Tokens</a></li>
+                        <li><a href="/Referral/<%= locals.user._id %>"><em class="ti ti-infinite"
+                                    style="font-size: 22px; padding-right: 12px;"></em>Referral</a></li>
+                        <li><a href="/transactions"><em class="ikon ikon-transactions"></em> Transactions</a></li>
+                        <li><a href="/profile/<%= locals.user._id %>"><em class="ikon ikon-user"></em> Profile</a></li>
+                        <li><a href="/Withdrawal/<%= locals.user._id %>"><em class="ikon ikon-user"></em> Withdrawal</a>
+                        </li>
+                        <li><a href="/FAQs"><em class="ikon ikon-user"></em> FAQs</a></li>
+                    </ul>
+                    <ul class="navbar-btns">
+                        <li><a href="/kyc/kycApplication" class="btn btn-sm btn-outline btn-light"><em
+                                    class="text-primary ti ti-files"></em><span>KYC Application</span></a></li>
+                        <li class="d-none"><span class="badge badge-outline badge-success badge-lg"><em
+                                    class="text-success ti ti-files mgr-1x"></em><span class="text-success">KYC
+                                    Approved</span></span></li>
+                    </ul>
+                </div>
+            </div><!-- .container -->
+        </div><!-- .navbar -->
+    </div><!-- .topbar-wrap -->
+
+    <script>
+        window.addEventListener("load", function () {
+            lodlogo();
+        });
+
+        function lodlogo() {
+            console.log('<%= webSettingData.DashboardLogo %>');
+        }
+    </script>

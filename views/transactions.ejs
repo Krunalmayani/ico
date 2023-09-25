@@ -1,0 +1,91 @@
+<%- include('header') %>
+    <div class="page-content">
+        <div class="container">
+            <div class="card content-area">
+                <div class="card-innr">
+                    <div class="card-head">
+                        <h4 class="card-title">Transactions</h4>
+                    </div>
+                    <table class="data-table dt-init user-tnx">
+                        <thead>
+                            <tr class="data-item data-head">
+                                <th class="data-col dt-tnxno">Date</th>
+                                <th class="data-col dt-amount">USD</th>
+                                <th class="data-col dt-usd-amount">Pay Amount</th>
+                                <th class="data-col dt-coin dt-usd-amount">Coin</th>
+                                <th class="data-col dt-bonus dt-account">Bonus</th>
+                                <th class="data-col dt-account">Total Coin</th>
+                                <th class="data-col dt-account">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%for(var i of data){%>
+                                <tr class="data-item">
+                                    <td class="data-col dt-tnxno">
+                                        <div class="d-flex align-items-center">
+                                            <div class="fake-class">
+                                                <span class="lead tnx-id">
+                                                    <%= i.Transaction_submit_Time.toDateString() %>
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="data-col dt-amount">
+                                        <span class="lead amount-pay">$<%= i.Usd %></span>
+
+                                    </td>
+                                    <td class="data-col dt-usd-amount">
+                                        <span class="lead amount-pay">
+                                            <%= i.Pay_Amount %>
+                                        </span>
+                                        <span class="sub sub-symbol">
+                                            <%= i.Method %> <em class="fas fa-info-circle" data-toggle="tooltip"
+                                                    data-placement="bottom"></em>
+                                        </span>
+                                    </td>
+                                    <td class="data-col dt-coin dt-account">
+                                        <span class="lead user-info">
+                                            <%= i.Token %> 
+                                        </span>
+                                        <span class="sub sub-symbol">
+                                             <%= webSettingData.Tokensymbol %>
+                                        </span>
+                                    </td>
+                                    <td class="data-col dt-bonus dt-token">
+                                        <span class="lead token-amount">
+                                            <%= i.Bonus %>
+                                        </span>
+                                        <span class="sub sub-symbol">
+                                            <%= webSettingData.Tokensymbol %>
+                                       </span>
+                                    </td>
+                                    <td class="data-col dt-token">
+                                        <span class="lead token-amount">
+                                            <%= i.Total_Token %> 
+                                        </span>
+                                        <span class="sub sub-symbol">
+                                            <%= webSettingData.Tokensymbol %>
+                                       </span>
+                                    </td>
+                                    <td class="data-col dt-type">
+                                        <% if (i.Status==='Pending' ) { %>
+                                            <span class="dt-status-md badge btn btn-warning badge-md">Pending</span>
+                                            <span class="dt-status-sm badge badge-sq btn btn-warning badge-md">P</span>
+                                            <% } else if (i.Status==='Approved' ) { %>
+                                                <span class="dt-status-md badge btn btn-success badge-md">Approved</span>
+                                                <span class="dt-status-sm badge badge-sq btn btn-success badge-md">A</span>
+                                                <% } else if (i.Status==='Rejected' ) { %>
+                                                    <span class="dt-status-md badge btn btn-danger badge-md">Rejected</span>
+                                                    <span class="dt-status-sm badge badge-sq btn btn-danger badge-md">R</span>
+                                                    <% } %>
+                                    </td>
+                                </tr>
+                                <%}%>
+                        </tbody>
+                    </table>
+                </div><!-- .card-innr -->
+            </div><!-- .card -->
+        </div><!-- .container -->
+    </div><!-- .page-content -->
+    <%- include('footer') %>

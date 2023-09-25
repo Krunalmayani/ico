@@ -1,0 +1,143 @@
+<div class="footer-bar">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-8">
+                <ul class="footer-links">
+                    <li><a href="<%= webSettingData.HomePageLink %>">Home</a></li>
+                    <li><a href="<%= webSettingData.Private_Policy %>">Privacy Policy</a></li>
+                    <li><a href="<%= webSettingData.TermsAndConditions %>">Terms of Condition</a></li>
+                </ul>
+            </div><!-- .col -->
+            <div class="col-md-4 mt-2 mt-sm-0">
+                <div
+                    class="d-flex justify-content-between justify-content-md-end align-items-center guttar-25px pdt-0-5x pdb-0-5x">
+                    <div class="copyright-text">
+                        <%= webSettingData.CopyRightWord %>
+                    </div>
+
+                </div>
+            </div><!-- .col -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+</div><!-- .footer-bar -->
+<script src="/js/jquery.bundle7500.js?ver=103"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/script7500.js?ver=103"></script>
+
+<script>
+    const logoutButton = document.getElementById('logoutUSER');
+    logoutButton.addEventListener('click', async () => {
+        try {
+            const response = await fetch('/logout', {
+                method: 'GET',
+            });
+            if (response.ok) {
+                window.close();
+                window.open('/login', '_blank');
+            } else {
+                console.error('Logout failed');
+            }
+        } catch (error) {
+            console.error('An error occurred during logout:', error);
+        }
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        var selectedDocumentOptions = []; // Array to store selected document options
+
+        $('.document-upload').change(function () {
+            var documentOption = $(this).data('document-option');
+
+            // Check if the document option is already selected
+            if (selectedDocumentOptions.includes(documentOption)) {
+                // Unselect the previously selected option
+                selectedDocumentOptions = selectedDocumentOptions.filter(option => option !== documentOption);
+                $(this).val('');
+            } else {
+              
+                selectedDocumentOptions.forEach(option => {
+                    $('input[data-document-option="' + option + '"]').val('');
+                });
+                selectedDocumentOptions = [documentOption];
+            }
+            $('input[name="document_option"]').val(selectedDocumentOptions[0] || '');
+        });
+
+        function validateForm() {
+            $('#error-messages').empty();
+
+
+            var hasErrors = false;
+
+            $('.input-bordered').each(function () {
+                if ($(this).val().trim() === '') {
+                    hasErrors = true;
+                    $('#error-messages').append('<div class="error-message">All fields are required.</div>');
+                }
+            });
+
+            var email = $('input[name="Email"]').val();
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email !== '' && !emailRegex.test(email)) {
+                hasErrors = true;
+                $('#error-messages').append('<div class="error-message">Invalid email format.</div>');
+            }
+
+            // Validate document option
+            var documentOption = $('input[name="document_option"]').val();
+            if (documentOption === '') {
+                hasErrors = true;
+                $('#error-messages').append('<div class="error-message">Please select a document to upload.</div>');
+            }
+
+            if (!$('#term-condition').prop('checked')) {
+                hasErrors = true;
+                $('#error-messages').append('<div class="error-message">You must agree to the Terms and Conditions.</div>');
+            }
+
+            if (!$('#info-currect').prop('checked')) {
+                hasErrors = true;
+                $('#error-messages').append('<div class="error-message">Please confirm that the entered information is correct.</div>');
+            }
+
+            if (!$('#info-').prop('checked')) {
+                hasErrors = true;
+                $('#error-messages').append('<div class="error-message">You must certify your registration for the event.</div>');
+            }
+
+            if (!$('#info-last').prop('checked')) {
+                hasErrors = true;
+                $('#error-messages').append('<div class="error-message">You must understand the requirement for wallet address.</div>');
+            }
+
+            return !hasErrors;
+        }
+
+        function ss() {
+            validateForm();
+        }
+    })
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="/js/validataion.js"></script>
+<script type="text/javascript">
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function () {
+        var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+        s1.async = true;
+        s1.src = 'https://embed.tawk.to/5a7e71e1d7591465c7078a76/default';
+        s1.charset = 'UTF-8';
+        s1.setAttribute('crossorigin', '*');
+        s0.parentNode.insertBefore(s1, s0);
+    })();
+</script>
+</body>
+
+</html>

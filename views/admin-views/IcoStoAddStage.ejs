@@ -1,0 +1,155 @@
+<%- include('header') %>
+    <div class="page-content">
+        <div class="container">
+            <div class="content-area card">
+                <div class="card-innr">
+                    <div class="page-content">
+                        <div class="container">
+                            <div class="card content-area">
+                                <div class="card-innr">
+
+                                    <div class="card-head d-flex justify-content-between align-items-center">
+                                        <h4 class="card-title mb-0">ICO/STO Stage Create</h4>
+                                        <div class="d-flex guttar-15px">
+                                            <div class="fake-class">
+                                                <a href="/admin/IcoSto"
+                                                    class="btn btn-sm btn-auto btn-primary d-sm-inline-block d-none"><em
+                                                        class="fas fa-arrow-left"></em><span>Back</span></a>
+                                                <a href="https://app.tokenlite.net/admin/stages"
+                                                    class="btn btn-icon btn-sm btn-primary d-sm-none"><em
+                                                        class="fas fa-arrow-left"></em></a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="gaps-1x"></div>
+                                    <hr>
+                                    <div class="tab-content" id="ico-details">
+                                        <div class="tab-pane fade show active" id="ico_stage_create">
+                                            <form action="/admin/AddIcoSto" method="post"
+                                                class=" _reload validate-modern" id="ico_stage_create"
+                                                autocomplete="off">
+                                                <div id="stageDetails" class="wide-max-md">
+                                                    <div class="input-item input-with-label">
+                                                        <label class="input-item-label">Stage Title/Name</label>
+                                                        <div class="input-wrap">
+                                                            <input class="input-bordered" type="text" name="Stage_Name"
+                                                                placeholder="Enter stage name" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="input-item input-with-label">
+                                                                <label class="input-item-label">Total Token
+                                                                    Issues</label>
+                                                                <div class="input-wrap">
+                                                                    <input class="input-bordered" type="number" min="1"
+                                                                        name="Total_Token" placeholder="0" required>
+                                                                </div>
+                                                                <span class="input-note">Define how many tokens
+                                                                    available for sale on
+                                                                    stage.</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-item input-with-label">
+                                                                <label class="input-item-label">Base Token Price($)</label>
+                                                                <div class="input-wrap">
+                                                                    <input class="input-bordered" type="number" min="0"
+                                                                        name="Base_Token_Price" placeholder="0"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="input-item input-with-label">
+                                                                <label class="input-item-label">Bonus Percentage
+                                                                    (%)</label>
+                                                                <div class="row align-items-center">
+                                                                    <div class="col">
+                                                                        <div class="relative">
+                                                                            <div class="input-wrap">
+                                                                                <input class="input-bordered"
+                                                                                    type="number" placeholder="0"
+                                                                                    name="Bonus_Percentage" required>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <span class="input-note">Purchase min or max
+                                                                            amount of token per
+                                                                            tranx.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-12 mb-4 mt-1">
+                                                            <div class="sap"></div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-item input-with-label">
+                                                                <label class="input-item-label">Start Date</label>
+                                                                <div class="row guttar-15px align-items-center">
+                                                                    <div class="col-7 col-sm-7">
+                                                                        <div class="input-wrap">
+                                                                            <input class="input-bordered "
+                                                                                type="date" name="Start_Date" required>
+                                                                          
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-12">
+                                                                        <span class="input-note">Start date for sale.
+                                                                            Can't
+                                                                            purchase before time.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-item input-with-label">
+                                                                <label class="input-item-label">End Date</label>
+                                                                <div class="row guttar-15px align-items-center">
+                                                                    <div class="col-7 col-sm-7">
+                                                                        <div class="input-wrap">
+                                                                            <input
+                                                                                class="input-bordered "
+                                                                                type="date" name="End_Date" required>
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-5 col-sm-5">
+                                                                        <div class="input-wrap">
+
+                                                                            <span
+                                                                                class="input-icon input-icon-right time-picker-icon"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <span class="input-note">Finish date for sale.
+                                                                            Can't
+                                                                            purchase after time.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <input type="submit" class="btn btn-primary save-disabled"
+                                                            value="Create">
+                                                    </div>
+                                                    <div class="gaps-1-5x"></div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- .card-innr -->
+            </div><!-- .card -->
+        </div><!-- .container -->
+    </div>
+    <%- include('footer') %>

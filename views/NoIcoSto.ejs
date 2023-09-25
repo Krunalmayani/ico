@@ -1,0 +1,28 @@
+<%- include('header') %>
+
+    <div class="page-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-xl-9">
+                    <div class="kyc-status card mx-lg-4">
+                        <div class="card-innr">
+                            <div class="status status-thank px-md-5">
+                                <h1 class="status-text large text-dark">Sorry No ICO/STO Stage Running</h1>
+                                <% if (upcomingStartDate) { %> The upcoming stage is scheduled to start on <%=
+                                        upcomingStartDate.toDateString() %>.
+                                        <% } else { %>
+                                            The upcoming stage is scheduled in Some time 
+                                            <% } %>
+                                            <div>
+
+                                                <a href="/dashboard" class="btn btn-primary">Back to Dashboard</a>
+                                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gaps-3x d-none d-sm-block"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('footer') %>

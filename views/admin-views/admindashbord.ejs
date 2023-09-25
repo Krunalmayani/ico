@@ -1,0 +1,265 @@
+<%- include('header') %>
+    <div class="page-content">
+        <div class="container">
+            <%if(flash.success && flash.success.length> 0){%>
+                <div class="alert form-control" style="padding-left: 25px; color: black; padding-top: 8px;">
+                    <%=flash.success%>
+                </div>
+                <%}%>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="token-statistics card card-token height-auto">
+                                <div class="card-innr">
+                                    <div class="token-balance token-balance-with-icon">
+                                        <div class="token-balance-icon">
+                                            <img src="/images/logo-light-sm.png" alt="logo">
+                                        </div>
+                                        <div class="token-balance-text">
+                                            <h6 class="card-sub-title">Tokens Balance</h6>
+                                            <span class="lead">
+                                               0 <span>
+                                                        <%= webSettingData.Tokensymbol %>
+                                                    </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="token-balance token-balance-s2">
+                                        <h6 class="card-sub-title">Current Price</h6>
+                                        <ul class="token-balance-list">
+                                            <li class="token-balance-sub">
+                                               <span>$</span><span class="lead " id="ethereumPrice"></span>
+                                                <span class="sub">ETH</span>
+                                            </li>
+                                            <li class="token-balance-sub">
+                                                <span>$</span><span class="lead" id="bitcoinPrice"></span>
+                                                <span class="sub">BTC</span>
+                                            </li>
+                                            <li class="token-balance-sub">
+                                                <span>$</span><span class="lead" id="litecoinPrice"></span>
+                                                <span class="sub">LTC</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="token-information card card-full-height">
+                                <div class="row no-gutters height-100">
+                                    <div class="col-md-6 text-center">
+                                        <div class="token-info">
+                                            <img class="token-info-icon" src="/images/logo-sm.png" alt="logo-sm">
+                                            <div class="gaps-2x"></div>
+                                            <h1 class="token-info-head text-light">1 <%= webSettingData.Tokensymbol %> =
+                                                <%= activeStageData.Base_Token_Price %> USD</h1>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="token-info bdr-tl">
+                                            <div>
+                                                <ul class="token-info-list">
+                                                    <li><span>Token Name:</span>
+                                                        <%= webSettingData.Token_Name %>
+                                                    </li>
+                                                    <li><span>Token Symbol:</span>
+                                                        <%= webSettingData.Tokensymbol %>
+                                                    </li>
+                                                </ul>
+                                                <a href="" class="btn btn-primary"><em
+                                                        class="fas fa-download mr-3"></em>Download Whitepaper</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        <div class="main-content col-lg-7 col-lg-8">
+                            <div class="content-area card">
+                                <div class="card-innr">
+
+                                    <div class="card-head">
+                                        <h5 class="card-title card-title-md">ICO Schedule</h5>
+                                    </div>
+                                    <% if (latestExpired) { %>
+
+                                    <div class="schedule-item">
+                                        <div class="row">
+                                            <div class="col-xl-5 col-md-5 col-lg-6">
+                                                <div class="pdb-1x">
+                                                    <h5 class="schedule-title"><span>
+                                                            <%= latestExpired.Stage_Name%>
+                                                        </span></h5>
+                                                    <span>Start at <%= latestExpired.Start_Date.toDateString()%></span>
+                                                    <span>End at - <%= latestExpired.End_Date.toDateString()%></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-md col-lg-6">
+                                                <div class="pdb-1x">
+                                                    <h5 class="schedule-title"><span
+                                                            class="badge badge-danger ucap badge-xs">Expired</span></h5>
+                                                    <span>Token Price <%= latestExpired.Base_Token_Price%>$</span>
+                                                    <span>Token Distribute <%= latestExpired.Total_Token%>
+                                                            <%= webSettingData.Tokensymbol %></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-md-3 align-self-center text-xl-right">
+                                                <div class="pdb-1x">
+                                                    <span class="schedule-bonus">
+                                                        <%= latestExpired.Bonus_Percentage %>% Bonus
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% } else { %>
+                                        <% } %>
+
+                                    <% if (currentStage) { %>
+                                    <div class="schedule-item">
+                                        <div class="row">
+                                            <div class="col-xl-5 col-md-5 col-lg-6">
+                                                <div class="pdb-1x">
+                                                    <h5 class="schedule-title"><span>
+                                                            <%= currentStage.Stage_Name%>
+                                                        </span></h5>
+                                                    <span>Start at <%= currentStage.Start_Date.toDateString()%></span>
+                                                    <span>End at <%= currentStage.End_Date.toDateString()%></span>
+                                                </div>
+                                            </div>
+                                           
+                                            <div class="col-xl-4 col-md col-lg-6">
+                                                <div class="pdb-1x">
+                                                    <h5 class="schedule-title"><span
+                                                            class="badge badge-success ucap badge-xs">Running</span>
+                                                    </h5>
+                                                    <span>Token Price <%= currentStage.Base_Token_Price%>$</span>
+                                                    <span>Token Distribute <%= currentStage.Total_Token%>
+                                                            <%= webSettingData.Tokensymbol %></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-3 col-md-3 align-self-center text-xl-right">
+                                                <div class="pdb-1x">
+                                                    <span class="schedule-bonus">
+                                                        <%= currentStage.Bonus_Percentage %>% Bonus
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <% } else { %>
+                                        <% } %>
+
+                                        <% if (latestUpcomingStage) { %>
+
+
+                                    <div class="schedule-item">
+                                        <div class="row">
+                                            <div class="col-xl-5 col-md-5 col-lg-6">
+                                                <div class="pdb-1x">
+                                                    <h5 class="schedule-title"><span>
+                                                            <%= latestUpcomingStage.Stage_Name%>
+                                                        </span></h5>
+                                                    <span>Start at <%= latestUpcomingStage.Start_Date.toDateString()%>
+                                                            </span>
+                                                    <span>End at <%= latestUpcomingStage.End_Date.toDateString()%>
+                                                            </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-md col-lg-6">
+                                                <div class="pdb-1x">
+                                                    <h5 class="schedule-title"><span
+                                                            class="badge badge-disabled ucap badge-xs">Upcomming</span>
+                                                    </h5>
+                                                    <span>Token Price <%= latestUpcomingStage.Base_Token_Price%>$</span>
+                                                    <span>Token Distribute <%= latestUpcomingStage.Total_Token%>
+                                                            <%= webSettingData.Tokensymbol %></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-md-3 align-self-center text-xl-right">
+                                                <div class="pdb-1x">
+                                                    <span class="schedule-bonus">
+                                                        <%= latestUpcomingStage.Bonus_Percentage %>% Bonus
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% } else { %>
+                                        <% } %>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="token-calculator card card-full-height">
+                                <div class="card-innr">
+                                    <div class="card-head">
+                                        <h4 class="card-title">Token Calculation</h4>
+                                        <p class="card-title-text">Enter amount to calculate token.</p>
+                                    </div>
+                                    <div class="token-calc">
+                                        <div class="token-pay-amount">
+                                            <input id="USD" class="input-bordered input-with-hint" type="text" value="1"
+                                                onchange="FindToken()">
+                                            <div class="token-pay-currency">
+                                                <a href="#" class="link ucap link-light ">USD</a>
+                                            </div>
+                                        </div>
+                                        <div class="token-received">
+                                            <div class="token-eq-sign">=</div>
+                                            <div class="token-received-amount">
+                                                <h5 class="token-amount" id="calculated_Token"></h5>
+                                                <div class="token-symbol">
+                                                    <%= webSettingData.Tokensymbol %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="token-calc-note note note-plane">
+                                        <em class="fas fa-info-circle text-light"></em>
+                                        <span class="note-text text-light">Amount calculated based current tokens
+                                            price</span>
+                                    </div>
+                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- .row -->
+        </div><!-- .container -->
+    </div>
+
+    <%- include('footer') %>
+
+        <script>
+            async function fetchCryptoPrices() {
+                try {
+                    const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,litecoin&vs_currencies=usd");
+                    const data = await response.json();
+
+                    document.getElementById("bitcoinPrice").textContent = data.bitcoin.usd;
+                    document.getElementById("ethereumPrice").textContent = data.ethereum.usd;
+                    document.getElementById("litecoinPrice").textContent = data.litecoin.usd;
+                } catch (error) {
+                    console.error("Error fetching crypto prices:", error);
+                }
+            }
+
+            fetchCryptoPrices();
+
+            window.addEventListener('load', function () {
+                    function FindToken() {
+                    var USD = document.getElementById("USD").value;
+                    const calculatedValue = USD / <%= activeStageData.Base_Token_Price %>;
+                    document.getElementById('calculated_Token').textContent = calculatedValue.toFixed(8);
+                }
+
+                FindToken();
+
+                document.getElementById("USD").addEventListener("change", FindToken);
+            });
+
+        </script>

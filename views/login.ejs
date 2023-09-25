@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Login to your Account">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="<%= webSettingData.FaviconImage %>">
+    <!-- Site Title  -->
+    <title>Login to your Account</title>
+    <!-- Vendor Bundle CSS -->
+    <link rel="stylesheet" href="css/vendor.bundle7500.css?ver=103">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="css/style7500.css?ver=103">
+
+</head>
+
+<body class="page-ath">
+    <div class="page-ath-wrap">
+        <div class="page-ath-content">
+            <div class="page-ath-header">
+                <a href="index.html" class="page-ath-logo"><img src="<%= webSettingData.SignUpLoginLogo %>"
+                        srcset="images/logo2x.png 2x" alt="logo"></a>
+            </div>
+            <div class="page-ath-form">
+                <h2 class="page-ath-heading">Sign in <small>with your TokenWiz Account</small></h2>
+                <!-- login form to create session -->
+                <form name="loginForm" method="post" action="/creatsession">
+
+                    <input type="hidden" name="token" id="token" value="">
+
+                    <div class="input-item">
+                        <input type="text" placeholder="Your Email" name="email" class="input-bordered" required>
+                    </div>
+                    <div class="input-item">
+                        <input type="password" placeholder="Password" name="password" class="input-bordered" required>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="input-item text-left">
+                            <input class="input-checkbox input-checkbox-md" id="remember-me" type="checkbox">
+                            <label for="remember-me">Remember Me</label>
+                        </div>
+                        <div>
+                            <a href="/forgotPassword">Forgot password?</a>
+                            <div class="gaps-2x"></div>
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-primary btn-block" value="Login">
+                </form>
+                <div class="sap-text"><span>Or Sign In With</span></div>
+                <ul class="row guttar-20px guttar-vr-20px">
+                    <li class="col"><a href="#" class="btn btn-outline btn-dark btn-google btn-block"><em
+                                class="fab fa-google"></em><span>Google</span></a></li>
+                </ul>
+                <div class="gaps-2x"></div>
+                <div class="gaps-2x"></div>
+                <div class="form-note">
+                    Don’t have an account? <a href="/signup"> <strong>Sign up here</strong></a>
+                </div>
+            </div>
+
+        </div>
+        <div class="page-ath-gfx">
+            <div class="w-100 d-flex justify-content-center">
+                <div class="col-md-8 col-xl-5">
+                    <img src="images/ath-gfx.png" alt="image">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript (include all script here) -->
+    <script src="js/jquery.bundle7500.js?ver=103"></script>
+    <script src="js/script7500.js?ver=103"></script>
+    <script>
+        function validateForm() {
+            var email = document.forms["loginForm"]["email"].value;
+            var password = document.forms["loginForm"]["password"].value;
+
+            if (email === "") {
+                alert("Email must be filled out");
+                return false;
+            }
+
+            if (password === "") {
+                alert("Password must be filled out");
+                return false;
+            }
+        }
+    </script>
+
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    const token = urlParams.get('token');
+    console.log('token :', token);
+
+    document.getElementById('token').value = token;
+</script>
+
+</body>
+</html>

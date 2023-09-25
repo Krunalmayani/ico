@@ -1,0 +1,417 @@
+<style>
+    /* Hide the spinner arrows */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
+</style>
+<%- include('header') %>
+
+    <div class="page-content">
+        <div class="container">
+            <%if(flash.success && flash.success.length> 0){%>
+                <div class="alert form-control" style="padding-left: 25px; color: black; padding-top: 8px;">
+                    <%=flash.success%>
+                </div>
+                <%}%>
+                    <div class="row">
+                        <div class="main-content col-lg-8">
+                            <div class="d-lg-none">
+                                <a href="#" data-toggle="modal" data-target="#add-wallet"
+                                    class="btn btn-danger btn-xl btn-between w-100 mgb-1-5x">Add your wallet address
+                                    before buy
+                                    <em class="ti ti-arrow-right"></em></a>
+                                <div class="gaps-1x mgb-0-5x d-lg-none d-none d-sm-block"></div>
+                            </div>
+                            <div class="content-area card">
+                                <div class="card-innr">
+                                    <div class="card-head">
+                                        <span class="card-sub-title text-primary font-mid">Step 1</span>
+                                        <h4 class="card-title">Amount of contribute</h4>
+                                    </div>
+                                    <form action="/transactionData" method="post">
+                                        <input type="hidden" value="<%= user._id %>" name="User_id">
+                                        <div class="card-text">
+                                            <p>Enter your amount, you would like to contribute and calculate the amount
+                                                of token
+                                                you
+                                                will received. The calculator helps to convert required currency to
+                                                tokens.</p>
+                                        </div>
+                                        <div class="token-contribute">
+                                            <div id="error-message" style="color: red; display: none;">
+                                                Minimum contribution required
+                                            </div>
+                                            <div class="token-calc">
+                                                <div class="token-pay-amount">
+                                                    <input id="token-base-amount" class="input-bordered input-with-hint"
+                                                        type="number" value="<%= webSettingData.Minimum_Purchase %>"
+                                                        onchange="calculateTokenValue()"
+                                                        min="<%= webSettingData.Minimum_Purchase %>" name="Usd"
+                                                        oninput="validateInput(this)">
+                                                    <div class="token-pay-currency">
+                                                        <span class="input-hint input-hint-sap">USD</span>
+                                                    </div>
+                                                </div>
+                                                <div class="token-received">
+                                                    <div class="token-eq-sign">=</div>
+                                                    <div class="token-received-amount">
+                                                        <h5 class="token-amount" id="calculated-token-amount">0.00</h5>
+                                                        <input type="hidden" id="calculatedtokenamount-input"
+                                                            name="Token">
+                                                        <div class="token-symbol">
+                                                            <%= webSettingData.Tokensymbol %>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="token-calc-note note note-plane">
+                                                <em class="fas fa-times-circle text-danger"></em>
+                                                <span class="note-text text-light">
+                                                    <%= webSettingData.Minimum_Purchase %> minimum contribution require.
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="token-overview-wrap">
+                                            <div class="token-overview">
+                                                <div class="row">
+                                                    <div class="col-md-4 col-sm-6">
+                                                        <div class="token-bonus token-bonus-sale">
+                                                            <span class="token-overview-title">Total Token</span>
+                                                            <span class="token-overview-value bonus-on-sale"
+                                                                id="Total_token">
+                                                                000.00</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-6">
+                                                        <div class="token-bonus token-bonus-amount">
+                                                            <span class="token-overview-title">+ <%=
+                                                                    activeStageData.Bonus_Percentage %>% Bonus</span>
+                                                            <input type="hidden" id="Bonus-input" name="Bonus">
+
+                                                            <span class="token-overview-value bonus-on-amount"
+                                                                id="amount-bonus-value">0</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="token-total">
+                                                            <span class="token-overview-title font-bold">Total
+                                                                Token</span>
+                                                            <input type="hidden" id="Total_Token-input"
+                                                                name="Total_Token">
+
+                                                            <span
+                                                                class="token-overview-value token-total-amount text-primary"
+                                                                id="total-amount">0</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="note note-plane note-danger note-sm pdt-1x pl-0">
+                                                <p>Your Contribution will be calculated based on exchange rate at the
+                                                    moment
+                                                    your
+                                                    transaction is confirm.</p>
+                                            </div>
+                                        </div>
+                                        <div class="card-head">
+                                            <span class="card-sub-title text-primary font-mid">Step 2</span>
+                                            <h4 class="card-title">Choose currency and calculate EDX tokens price</h4>
+                                        </div>
+                                        <div class="card-text">
+                                            <p>You can buy our EDX tokens using ETH, BTC, LTC or USD to become part of
+                                                Our
+                                                project.
+                                            </p>
+                                        </div>
+                                        <div class="token-currency-choose">
+                                            <div class="row guttar-15px">
+                                                <div class="token-currency-choose">
+                                                    <div class="row guttar-15px">
+                                                        <div class="col-6">
+                                                            <div class="pay-option">
+                                                                <input class="pay-option-check" type="radio" id="payeth"
+                                                                    name="Method" value="ethereum" checked>
+                                                                <label class="pay-option-label" for="payeth">
+                                                                    <span class="pay-title"><em
+                                                                            class="pay-icon cf cf-eth"></em><span
+                                                                            class="pay-cur">ETH</span></span>
+
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="pay-option">
+                                                                <input class="pay-option-check" type="radio" id="paybtc"
+                                                                    name="Method" value="bitcoin">
+                                                                <label class="pay-option-label" for="paybtc">
+                                                                    <span class="pay-title"><span
+                                                                            class="pay-cur">BTC</span></span>
+
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="pay-option">
+                                                                <input class="pay-option-check" type="radio"
+                                                                    id="paysolana" name="Method" value="solana">
+                                                                <label class="pay-option-label" for="paysolana">
+                                                                    <span class="pay-title"><span
+                                                                            class="pay-cur">SOLANA</span></span>
+
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="pay-option">
+                                                                <input class="pay-option-check" type="radio"
+                                                                    id="payUSDT(ERC20)" name="Method"
+                                                                    value="USDT(ERC20)">
+                                                                <label class="pay-option-label" for="payUSDT(ERC20)">
+                                                                    <span class="pay-title"><span class="pay-cur">USDT
+                                                                            (ERC20)</span></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="pay-option">
+                                                                <input class="pay-option-check" type="radio"
+                                                                    id="payUSDT(BEP20)" name="Method"
+                                                                    value="USDT(BEP20)">
+                                                                <label class="pay-option-label" for="payUSDT(BEP20)">
+                                                                    <span class="pay-title"><span class="pay-cur">USDT
+                                                                            (BEP20)</span></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="pay-option">
+                                                                <input class="pay-option-check" type="radio"
+                                                                    id="payUSDT(TRC20)" name="Method"
+                                                                    value="USDT(TRC20)">
+                                                                <label class="pay-option-label" for="payUSDT(TRC20)">
+                                                                    <span class="pay-title"><span class="pay-cur">USDT
+                                                                            (TRC20)</span></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="pay-option">
+                                                                <input class="pay-option-check" type="radio"
+                                                                    id="payUSDC(ERC20)" name="Method"
+                                                                    value="USDC(ERC20)">
+                                                                <label class="pay-option-label" for="payUSDC(ERC20)">
+                                                                    <span class="pay-title"><span class="pay-cur">USDC
+                                                                            (ERC20)</span></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+                                            </div><!-- .row -->
+                                        </div>
+                                        <div id="random-crypto-address"></div>
+                                        <div class="card-head">
+                                            <span class="card-sub-title text-primary font-mid">Step 3</span>
+                                            <h4 class="card-title">Make a payment</h4>
+                                        </div>
+                                        <div class="pay-buttons">
+                                            <div class="pay-button"><a onclick="fetchPrice()" href="#"
+                                                    data-toggle="modal" data-target="#pay-online"
+                                                    class="btn btn-primary btn-between w-100 "
+                                                    id="showButton">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pay Now<em
+                                                        class="ti ti-arrow-right"></em></a></div>
+                                        </div>
+                                        <div id="hiddenSection" class="mt-3" style="display: none;">
+                                            <p>Please send <b id="AmOunt_pay">0.0</b> <b id="f-c"></b> to this following
+                                                Address :<b>
+                                                    <br>
+                                                    <span id="f-c3" style="color:#495463;"></span>&nbsp;Address : <span
+                                                        id="cryptoAddressDisplay"
+                                                        style="color:#495463;">Crypto_Address</span>
+                                                </b>
+                                            </p>
+                                            <input type="text" id="AmOunt_pay-input" name="Pay_Amount" required
+                                                style="display: none;">
+                                            <input type="hidden" id="cryptoAddressDisplay-input" name="Crypto_Address">
+                                            <p> Send the amount requested using either the bar code to the right or by
+                                                cutting
+                                                and
+                                                pasting the address into the requested
+                                                sending field of your bitcoin wallet when transferring.</p>
+                                            <p>Only after your wallet has shown a successful send, click on the blue
+                                                button to
+                                                the
+                                                right which says Click here when transfer is complete? to acknowledge
+                                                that your
+                                                transfer was completed.</p>
+                                            <div id="qr-code-container"></div>
+
+                                            <p class="pt-3"><b id="f-c2"></b> <b>Address:</b> <b
+                                                    id="cryptoAddresstwo"></b>
+                                            </p>
+                                            <div class="">
+
+                                                <input type="submit" class="btn btn-primary btn-between w-100 "
+                                                    id="showButton" value="Click here when
+                                    transfer is complete">
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="pay-notes">
+                                        <div class="note note-plane note-light note-md font-italic">
+                                            <em class="fas fa-info-circle"></em>
+                                            <p>Tokens will appear in your account after payment successfully made and
+                                                approved
+                                                by our team. <br class="d-none d-lg-block"> Please note that, EDX tokens
+                                                will
+                                                distributed end of ICO Token Sales. </p>
+                                        </div>
+                                    </div>
+                                </div> <!-- .card-innr -->
+                            </div>
+                        </div><!-- .col -->
+                        <div class="aside sidebar-right col-lg-4">
+                            <div class="token-sales card">
+                                <div class="card-innr">
+                                    <div class="card-head">
+                                        <h5 class="card-title card-title-sm">Pre-Sale Token Sales</h5>
+                                    </div>
+                                    <div class="token-rate-wrap row">
+                                        <div class="token-rate col-md-6 col-lg-12">
+                                            <span class="card-sub-title">Token Price</span>
+                                            <h4 class="font-mid text-dark">1 <%= webSettingData.Tokensymbol %> = <span>
+                                                        <%= activeStageData.Base_Token_Price %>
+                                                            $
+                                                    </span></h4>
+                                        </div>
+                                    </div>
+                                    <div class="token-bonus-current">
+                                        <div class="fake-class">
+                                            <span class="card-sub-title">Current Bonus</span>
+                                            <div class="h3 mb-0">
+                                                <%= activeStageData.Bonus_Percentage%>%
+                                            </div>
+                                        </div>
+                                        <div class="token-bonus-date">End at <br>
+                                            <%= activeStageData.End_Date.toDateString() %>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sap"></div>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    </div>
+
+    <%- include('footer') %>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script>
+            const tokenPrice = <%= activeStageData.Base_Token_Price %>;
+            const bonusPercentage = <%= activeStageData.Bonus_Percentage %>;
+
+            function calculateTokenValue() {
+                const inputAmount = parseFloat(document.getElementById('token-base-amount').value);
+                if (!isNaN(inputAmount)) {
+                    const calculatedValue = inputAmount / <%= activeStageData.Base_Token_Price %>;
+                    document.getElementById('calculated-token-amount').textContent = calculatedValue.toFixed(8);
+                    document.getElementById('calculatedtokenamount-input').value = calculatedValue.toFixed(8);
+                    document.getElementById('Total_token').textContent = calculatedValue.toFixed(8);
+                    const bonusAmount = calculatedValue * (bonusPercentage / 100);
+                    document.getElementById('Bonus-input').value = bonusAmount.toFixed(8);
+                    document.getElementById('amount-bonus-value').textContent = bonusAmount.toFixed(8);
+                    const totalEdxValue = calculatedValue + bonusAmount;
+                    document.getElementById('total-amount').textContent = totalEdxValue.toFixed(8);
+                    document.getElementById('Total_Token-input').value = totalEdxValue;
+                    return totalEdxValue;
+                }
+                return 0;
+            }
+            window.addEventListener('load', function () {
+                const minValue = <%= webSettingData.Minimum_Purchase %>;
+                const inputElement = document.getElementById('token-base-amount');
+                inputElement.value = minValue;
+                calculateTokenValue(minValue);
+            });
+            function fetchPrice() {
+                const selectedCryptocurrency = document.querySelector('input[name="Method"]:checked').value;
+                document.getElementById('f-c').innerHTML = selectedCryptocurrency;
+                document.getElementById('f-c2').innerHTML = selectedCryptocurrency;
+                document.getElementById('f-c3').innerHTML = selectedCryptocurrency;
+
+                const apiUrl = `/getRandomCryptoAddress?selectedCryptocurrency=${selectedCryptocurrency}`;
+                const qrCodeContainer = document.getElementById('qr-code-container');
+
+                const priceMapping = {
+                    'USDC(ERC20)': 1,
+                    'USDT(TRC20)': 1,
+                    'USDT(BEP20)': 1,
+                    'USDT(ERC20)': 1
+                };
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        let price = data.price;
+                        if (priceMapping.hasOwnProperty(selectedCryptocurrency)) {
+                            price = priceMapping[selectedCryptocurrency];
+                        }
+
+                        const inputAmountUSD = parseFloat(document.getElementById('token-base-amount').value);
+
+                        const final_PAY = inputAmountUSD / price;
+                        document.getElementById('AmOunt_pay').textContent = final_PAY.toFixed(8);
+                        document.getElementById('AmOunt_pay-input').value = final_PAY.toFixed(8);
+                        document.getElementById('cryptoAddressDisplay-input').value = data.randomCryptoAddress;
+                        document.getElementById('cryptoAddressDisplay').textContent = data.randomCryptoAddress;
+                        document.getElementById('cryptoAddresstwo').textContent = data.randomCryptoAddress;
+                        const qrCodeUrl = `https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=${data.randomCryptoAddress}`;
+                        const qrCodeImage = document.createElement('img');
+                        qrCodeImage.src = qrCodeUrl;
+                        qrCodeContainer.innerHTML = '';
+                        qrCodeContainer.appendChild(qrCodeImage);
+                    })
+                    .catch(error => {
+                        console.error("Error fetching data:", error);
+                    });
+            }
+        </script>
+        <script>
+            function validateMinimum(inputElement) {
+                const minValue = parseFloat('<%= webSettingData.Minimum_Purchase %>');
+                if (parseFloat(inputElement.value) < minValue) {
+                    inputElement.value = minValue;
+                }
+            }
+        </script>
+        <script>
+            // JavaScript to prevent typing a smaller value and show an error
+            function validateInput(inputElement) {
+                const minValue = parseFloat('<%= webSettingData.Minimum_Purchase %>');
+                const inputValue = parseFloat(inputElement.value);
+
+                if (isNaN(inputValue) || inputValue < minValue) {
+                    document.getElementById('error-message').style.display = 'block';
+                    inputElement.setCustomValidity("Invalid");
+                } else {
+                    document.getElementById('error-message').style.display = 'none';
+                    inputElement.setCustomValidity(""); // Clear custom validity
+                }
+            }
+        </script>
+
+
+        <script>
+            $(document).ready(function () {
+                $("#showButton").click(function () {
+                    $("#hiddenSection").toggle();
+                });
+            });
+        </script>

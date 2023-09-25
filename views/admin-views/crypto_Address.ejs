@@ -1,0 +1,135 @@
+<%- include('header') %>
+    <div class="page-content">
+        <div class="container">
+            <%if(flash.success && flash.success.length> 0){%>
+                <div class="alert form-control" style="padding-left: 25px; color: black; padding-top: 8px;">
+                    <%=flash.success%>
+                </div>
+                <%}%>
+                    <div class="content-area card">
+                        <div class="card-innr card-innr-fix2">
+
+                            <div class="card-head">
+                                <h6 class="card-title">Add Crypto Address</h6>
+                            </div>
+                            <div class="gaps-1x"></div><!-- .gaps -->
+                            <div class="row d-flex content-center">
+                                <div class="col-md-6">
+                                    <form action="/admin/AddcryptoAddress" method="post">
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label">Crypto Address</label>
+                                            <input class="input-bordered" type="text" name="Crypto_Address"
+                                                placeholder="Type Crypto Address" required>
+                                        </div>
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label">Select Crypto</label>
+                                            <select class="select select-block select-bordered" name="Crypto_Type"
+                                                required>
+                                                <option value="">-- Select Crypto --</option>
+                                                <option value="bitcoin">Bitcoin</option>
+                                                <option value="ethereum">Ethereum</option>
+                                                <option value="USDT(ERC20)">USDT (ERC20)</option>
+                                                <option value="USDT(BEP20)">USDT (BEP20)</option>
+                                                <option value="USDT(TRC20)">USDT (TRC20)</option>
+                                                <option value="USDC(ERC20)">USDC (ERC20)</option>
+                                                <option value="solana">Solana</option>
+                                            </select>
+                                        </div>
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label">Block Explorer</label>
+                                            <input class="input-bordered" type="text" name="Block_explorer"
+                                                placeholder="Type Block_explorer " required>
+                                        </div>
+                                        <input type="submit" class="btn btn-primary">
+                                    </form>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div><!-- .card -->
+
+        </div><!-- .container -->
+    </div><!-- .page-content -->
+
+
+
+    <div class="page-content">
+        <div class="container">
+            <div class="content-area card">
+                <div class="card-innr">
+                    <div class="card-head">
+                        <h4 class="card-title">All Crypto Address</h4>
+                    </div>
+                    <table class="data-table dt-init kyc-list">
+                        <thead>
+                            <tr class="data-item data-head">
+                                <th class="data-col dt-user">Crypto Address</th>
+                                <th class="data-col dt-doc-type">Crypto</th>
+                                <th class="data-col dt-status">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%for(var i of data){%>
+                                <tr class="data-item">
+                                    <td class="data-col dt-user d-flex">
+                                        <span class="lead ethreiumhide token-amount user-name">
+                                            <%=i.Crypto_Address%>
+                                        </span>
+                                        </span><span class="lead tokenhide token-amount"
+                                            id="cryptovalstart_<%= i.id %>"></span>
+                                        <span class="lead tokenhide token-amount">....</span>
+                                        <span class="lead tokenhide token-amount" id="cryptoval_<%= i.id %>"></span>
+                                    </td>
+                                    <td class="data-col dt-user">
+                                        <span class="lead user-name">
+                                            <%=i.Crypto_Type %>
+                                        </span>
+                                    </td>
+                                    <td class="data-col text-center">
+                                        <div class="relative d-inline-block">
+                                            <a href="#" class="btn btn-light-alt btn-xs btn-icon toggle-tigger"><em
+                                                    class="ti ti-more-alt"></em></a>
+                                            <div class="toggle-class dropdown-content dropdown-content-top-left">
+                                                <ul class="dropdown-list">
+                                                    <li><a href="/admin/EditCrypto/<%=i._id%>"><em
+                                                                class="ti ti-na"></em> Edit</a></li>
+                                                    <li><a href="/admin/deleteCrypto/<%=i._id%>"><em
+                                                                class="ti ti-trash"></em> Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr><!-- .data-item -->
+                                <%}%>
+
+                                    <!-- .data-item -->
+                        </tbody>
+                    </table>
+                </div><!-- .card-innr -->
+            </div><!-- .card -->
+        </div><!-- .container -->
+    </div>
+
+
+
+
+    <%- include('footer') %>
+
+        <script>
+            window.addEventListener("load", function () {
+                <% for (var i of data) { %>
+                    cryptotextloaded('<%=i.Crypto_Address%>', 'cryptovalstart_<%= i.id %>', 'cryptoval_<%= i.id %>');
+                <% } %>
+            });
+
+            function cryptotextloaded(cryptoAddress, elementId, elementIdend) {
+                console.log(cryptoAddress);
+                const cryptodatastart = cryptoAddress.slice(0, 6);
+                const cryptodataend = cryptoAddress.slice(-2);
+                console.log(cryptodatastart, cryptodataend);
+                document.getElementById(elementId).innerHTML = cryptodatastart;
+                document.getElementById(elementIdend).innerHTML = cryptodataend;
+            }
+        </script>

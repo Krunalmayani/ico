@@ -1,0 +1,104 @@
+<%- include('header') %>
+    <div class="page-content">
+        <div class="container">
+            <div class="content-area card">
+                <div class="card-innr">
+                    <div class="card-head">
+                        <h4 class="card-title">Withdrawal</h4>
+                    </div>
+                    <table class="data-table withdrawal dt-init kyc-list">
+                        <thead>
+                            <tr class="data-item data-head">
+                                <th class="data-col dt-user">Date</th>
+                                <th class="data-col dt-doc-type">Email</th>
+                                <th class="data-col dt-doc-front">ETH Address</th>
+                                <th class="data-col dt-doc-back">Withdrawal Token</th>
+                                <th class="data-col dt-status">Status</th>
+                                <th class="data-col dt-status">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%for(var i of record){%>
+
+                                <tr class="data-item">
+                                    <td class="data-col dtname dt-user">
+                                        <span class="lead user-name">
+                                            <%= i.Withdrawal_date.toDateString() %>
+                                        </span>
+                                    </td>
+                                    <td class="data-col dt-user">
+                                        <span class="lead user-name">
+                                            <%= i.User_id.Fname %>
+                                        </span>
+                                        <span class="sub user-id">
+                                            <%= i.User_id.email %>
+                                        </span>
+                                    </td>
+                                    <td class="data-col dtadd dt-user d-flex  ">
+                                        <span class="lead text-truncate token-amount user-name">
+                                            <%= i.Ethereum_Address %>
+                                        </span>
+                                        <span class="token-amount" id="ethereumval_<%= i.id %>"></span>
+                                    </td>
+                                    <td class="data-col dtwith dt-user">
+                                        <span class="lead user-name">
+                                            <%= i.Withdrawal_Tokens %>
+                                        </span>
+                                        <span class="sub sub-symbol">
+                                            <%= webSettingData.Tokensymbol %>
+                                        </span>
+                                    </td>
+                                    <td class="data-col dt-status">
+                                        <% if (i.Status==='Pending' ) { %>
+                                            <span class="dt-status-md badge btn btn-warning badge-md">Pending</span>
+                                            <span class="dt-status-sm badge badge-sq btn btn-warning badge-md">P</span>
+                                            <% } else if (i.Status==='Approved' ) { %>
+                                                <span
+                                                    class="dt-status-md badge btn btn-success badge-md">Approved</span>
+                                                <span class="dt-status-sm badge-sq btn btn-success badge-md">A</span>
+                                                <% } else if (i.Status==='Rejected' ) { %>
+                                                    <span
+                                                        class="dt-status-md badge btn btn-danger badge-md">Rejected</span>
+                                                    <span class="dt-status-sm badge-sq btn btn-danger badge-md">R</span>
+                                                    <% } %>
+                                    </td>
+                                    <td class="data-col text-center">
+                                        <div class="relative d-inline-block">
+                                            <a href="#" class="btn btn-light-alt btn-xs btn-icon toggle-tigger"><em
+                                                    class="ti ti-more-alt"></em></a>
+                                            <div class="toggle-class dropdown-content dropdown-content-top-left">
+                                                <ul class="dropdown-list">
+                                                    <li><a href="/admin/ApproveWithdrawal/<%=i.id%>"><em
+                                                                class="ti ti-check"></em> Approve</a></li>
+                                                    <li><a href="/admin/RejectWithdrawal/<%=i.id%>"><em
+                                                                class="ti ti-na"></em> Reject</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <%}%>
+
+                                    <!-- .data-item -->
+                        </tbody>
+                    </table>
+                </div><!-- .card-innr -->
+            </div><!-- .card -->
+        </div><!-- .container -->
+    </div>
+    <%- include('footer') %>
+
+        <script>
+            window.addEventListener("load", function () {
+                <% for (var i of record) { %>
+                    ethereumtextloaded('<%= i.Ethereum_Address %>', 'ethereumval_<%= i.id %>');
+                <% } %>
+            });
+
+            function ethereumtextloaded(ethereumAddress, elementId) {
+                console.log(ethereumAddress);
+                const ethereumdata = ethereumAddress.slice(-2);
+                console.log(ethereumdata);
+                document.getElementById(elementId).innerHTML = ethereumdata;
+            }
+        </script>
