@@ -69,10 +69,10 @@ routes.get("/kycVerification", requireSession, userController.kycVerification)
 routes.get("/Referral/:id", requireSession, userController.Referral);
 routes.get("/Withdrawal/:id", requireSession, userController.Withdrawal);
 routes.get("/FAQs", requireSession, userController.FAQs);
-routes.post("/UserSignUpData",requireSession, userController.UserSignUpData);
-routes.post("/userPasswordUpdate",requireSession ,userController.userPasswordUpdate);
-routes.post("/transactionData",requireSession, userController.transactionData);
-routes.post("/addWithdrawalRequest",requireSession, userController.addWithdrawalRequest)
+routes.post("/UserSignUpData", userController.UserSignUpData);
+routes.post("/userPasswordUpdate", requireSession, userController.userPasswordUpdate);
+routes.post("/transactionData", requireSession, userController.transactionData);
+routes.post("/addWithdrawalRequest", requireSession, userController.addWithdrawalRequest)
 routes.get("/forgotPassword", userController.forgotPassword);
 routes.post("/SendEmail", userController.SendEmail)
 routes.get("/changepassword", userController.changepassword)

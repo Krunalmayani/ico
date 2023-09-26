@@ -1,3 +1,4 @@
+require('dotenv').config();
 const WebSetting = require('../models/WebSetting');
 const User = require("../models/User")
 const CryptoAddress = require("../models/CryptoAddress");
@@ -140,7 +141,7 @@ module.exports.profile = async (req, res) => {
         if (!userReferralCode) {
             return res.status(404).send("Referral code not found");
         }
-        const referralCodeUrl = `http://localhost:8001/signup?ref=${userReferralCode}`;
+        const referralCodeUrl = `${rocess.env.URL}/signup?ref=${userReferralCode}`;
         return res.render("profile", {
             profile: profile,
             referralCodeUrl: referralCodeUrl
@@ -173,7 +174,7 @@ module.exports.Referral = async (req, res) => {
         if (!user) {
             console.log("User not found.");
             return res.status(404).json({ error: 'User not found.' });
-            
+
         }
         const referringUser = await Referral.aggregate([
             {
@@ -233,7 +234,7 @@ module.exports.Referral = async (req, res) => {
         if (!userReferralCode) {
             return res.status(404).send("Referral code not found");
         }
-        const referralCodeUrl = `http://localhost:8001/signup?ref=${userReferralCode}`;
+        const referralCodeUrl = `${rocess.env.URL}/signup?ref=${userReferralCode}`;
 
         if (referringUser) {
             return res.render("Referral", { referralCodeData: referringUser, referralCodeUrl: referralCodeUrl });
@@ -312,7 +313,7 @@ module.exports.UserSignUpData = async (req, res) => {
                     newUser.token = token;
                     await newUser.save();
 
-                    const loginPageURL = 'http://localhost:8001/login'; // Define the login page URL
+                    const loginPageURL = `${rocess.env.URL}/login`; // Define the login page URL
                     const confirmationLink = `${loginPageURL}?token=${encodeURIComponent(token)}&email=${encodeURIComponent(newUser.email)}`;
 
                     const transport = nodemailer.createTransport({
@@ -386,7 +387,7 @@ module.exports.UserSignUpData = async (req, res) => {
                     newUser.token = token;
                     await newUser.save();
 
-                    const loginPageURL = 'http://localhost:8001/login';
+                    const loginPageURL = `${rocess.env.URL}/login`;
                     const confirmationLink = `${loginPageURL}?token=${encodeURIComponent(token)}&email=${encodeURIComponent(newUser.email)}`;
                     const transport = nodemailer.createTransport({
                         service: 'gmail',
@@ -738,7 +739,7 @@ module.exports.SendEmail = async (req, res) => {
                 },
             });
 
-            const loginPageURL = 'http://localhost:8001/changepassword';
+            const loginPageURL = `${rocess.env.URL}/changepassword`;
             const confirmationLink = `${loginPageURL}?token=${userData.token}&email=${userData.email}`;
 
             const info = await transport.sendMail({
@@ -812,7 +813,7 @@ module.exports.ChangeAccountPassword = async (req, res) => {
 }
 
 module.exports.changepassword = async (req, res) => {
-    return res.render('changepassword') 
+    return res.render('changepassword')
 }
 
 
@@ -837,12 +838,12 @@ module.exports.checkLoginTwoFAcode = async (req, res) => {
             window: 2,
         });
 
-        if (isVerified) {            
+        if (isVerified) {
             req.session.is2FAVerified = true;
             return res.redirect('/dashboard');
         } else {
             console.log("Invalid OTP");
-            return res.status(401).send('Invalid OTP');           
+            return res.status(401).send('Invalid OTP');
         }
     } catch (error) {
         console.error(error);
