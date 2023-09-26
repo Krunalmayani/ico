@@ -244,7 +244,7 @@ module.exports.Referral = async (req, res) => {
         return res.status(500).json({ error: "Internal server error." });
     }
 }
-module.exports.withdrawal = async (req, res) => {
+module.exports.Withdrawal = async (req, res) => {
     try {
         const userId = req.session.passport.user;
 
@@ -253,7 +253,7 @@ module.exports.withdrawal = async (req, res) => {
         if (user) {
             const WithdrawalDATA = await Withdrawal.find({ User_id: userId }).sort({ createTime: -1 });
 
-            return res.render("Withdrawal", {
+            return res.render("withdrawal", {
                 data: user,
                 Withdrawal: WithdrawalDATA
             });
