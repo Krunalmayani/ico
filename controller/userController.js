@@ -141,7 +141,7 @@ module.exports.profile = async (req, res) => {
         if (!userReferralCode) {
             return res.status(404).send("Referral code not found");
         }
-        const referralCodeUrl = `${rocess.env.URL}/signup?ref=${userReferralCode}`;
+        const referralCodeUrl = `${process.env.URL}/signup?ref=${userReferralCode}`;
         return res.render("profile", {
             profile: profile,
             referralCodeUrl: referralCodeUrl
@@ -234,7 +234,7 @@ module.exports.Referral = async (req, res) => {
         if (!userReferralCode) {
             return res.status(404).send("Referral code not found");
         }
-        const referralCodeUrl = `${rocess.env.URL}/signup?ref=${userReferralCode}`;
+        const referralCodeUrl = `${process.env.URL}/signup?ref=${userReferralCode}`;
 
         if (referringUser) {
             return res.render("Referral", { referralCodeData: referringUser, referralCodeUrl: referralCodeUrl });
@@ -313,7 +313,7 @@ module.exports.UserSignUpData = async (req, res) => {
                     newUser.token = token;
                     await newUser.save();
 
-                    const loginPageURL = `${rocess.env.URL}/login`; // Define the login page URL
+                    const loginPageURL = `${process.env.URL}/login`; // Define the login page URL
                     const confirmationLink = `${loginPageURL}?token=${encodeURIComponent(token)}&email=${encodeURIComponent(newUser.email)}`;
 
                     const transport = nodemailer.createTransport({
@@ -387,7 +387,7 @@ module.exports.UserSignUpData = async (req, res) => {
                     newUser.token = token;
                     await newUser.save();
 
-                    const loginPageURL = `${rocess.env.URL}/login`;
+                    const loginPageURL = `${process.env.URL}/login`;
                     const confirmationLink = `${loginPageURL}?token=${encodeURIComponent(token)}&email=${encodeURIComponent(newUser.email)}`;
                     const transport = nodemailer.createTransport({
                         service: 'gmail',
@@ -739,7 +739,7 @@ module.exports.SendEmail = async (req, res) => {
                 },
             });
 
-            const loginPageURL = `${rocess.env.URL}/changepassword`;
+            const loginPageURL = `${process.env.URL}/changepassword`;
             const confirmationLink = `${loginPageURL}?token=${userData.token}&email=${userData.email}`;
 
             const info = await transport.sendMail({
