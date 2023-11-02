@@ -16,10 +16,13 @@ const TransactionSchema = mongoose.Schema({
     Pay_Amount: { type: Number }, 
     Total_Token: { type: Number }, 
     Crypto_Address: { type: String },
+    Pay_Transaction_id: { type: String },
     Transaction_submit_Time: {
         type: Date
     },
     Status: { type: String }
+},{
+    timestamps: true,
 });
 const Transaction = mongoose.model('Transaction', TransactionSchema);
 module.exports = Transaction;

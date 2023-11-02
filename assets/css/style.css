@@ -11804,4 +11804,8 @@ select.select-sm {
   }
 }
 
+.sub sub-symbol a em {
+  font-size: 10px;
+}
+
 /** END */

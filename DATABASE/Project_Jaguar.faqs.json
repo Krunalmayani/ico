@@ -1,0 +1,140 @@
+[{
+  "_id": {
+    "$oid": "6520f416755d2c52f406042f"
+  },
+  "FAQ_Question": "What is an ICO?",
+  "FAQ_Answer": "Initial coin offering (ICO) is an one type of crowdfunding via use of cryptocurrency, It is secure and transparent mechanism which allows example coin to issues digital shares (COIN) in exchange for investments.",
+  "createdAt": {
+    "$date": "2023-10-07T06:00:54.067Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-09T04:43:15.671Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6520f432755d2c52f406043d"
+  },
+  "FAQ_Question": "When is the start of the ICO and what is launch date?",
+  "FAQ_Answer": "To learn more about example coin project, you can read the provided prospectus or email us directly on at info@icolaunchkit.io To learn more about example coin. in general, please watch the video on www.icolaunchkit.io",
+  "createdAt": {
+    "$date": "2023-10-07T06:01:22.285Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-09T05:24:25.505Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6520f446755d2c52f406044b"
+  },
+  "FAQ_Question": "How to deposit?",
+  "FAQ_Answer": "Initially, the Pre-sale ICO begins on 3rd December 2017. The purchase of example coin will be available on the in ICO dashboard using payment methods: BTC, ETH, LTC and Credit / Debit Card",
+  "createdAt": {
+    "$date": "2023-10-07T06:01:42.171Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-07T06:01:42.171Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6520f45b755d2c52f4060459"
+  },
+  "FAQ_Question": "What is the minimum purchase amount?",
+  "FAQ_Answer": "During the ICO, the minimum purchase amount is $10 USD.",
+  "createdAt": {
+    "$date": "2023-10-07T06:02:03.497Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-07T06:02:03.497Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6520f46d755d2c52f4060467"
+  },
+  "FAQ_Question": "How can I make a purchase of example coin in cryptocurrency?",
+  "FAQ_Answer": "Please select a crypto currency from the currency selection menu and enter the number of coins sent. Check the resulting amount of your investment and example coin including the bonus. Create your account using signup link provided on the homepage. Verify your email address and log into the dashboard. On the dashboard select the cryptocurrency you wish to deposit fund in. Currently, we accept Bitcoin, Ethereum, Litecoin and Credit/Debit Cards. Next, enter the amount of USD you want to invest and click on the “Invest�? button. Once you hit the invest button, the order will be generated and you will see the unique address, where you need to send coins. Also there is an option to scan QR code and send payment. As soon as you send payment, the order will be in pending status. Once it reaches minimum 6 confirmations, the order will be confirmed and related example coin amount will be updated in your dashboard.",
+  "createdAt": {
+    "$date": "2023-10-07T06:02:21.518Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-09T05:33:00.442Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6520f47e755d2c52f4060475"
+  },
+  "FAQ_Question": "Can I buy coins in fractions?",
+  "FAQ_Answer": "Each example coin can be split down up to 8 decimal points. The 0.0000001 example coin is the smallest fraction. Minimum purchase of example coin is $10.00 USD",
+  "createdAt": {
+    "$date": "2023-10-07T06:02:38.016Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-07T06:02:38.016Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6520f490755d2c52f4060483"
+  },
+  "FAQ_Question": "How many coins are issued during the ICO?",
+  "FAQ_Answer": "Based on the research of future markets, we have estimated the maximum amount of funds we would accept. The maximum amount of 70 Million example coin is available in ICO.",
+  "createdAt": {
+    "$date": "2023-10-07T06:02:56.525Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-07T06:02:56.525Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6520f49e755d2c52f4060491"
+  },
+  "FAQ_Question": "How can I use the example coin after the ICO?",
+  "FAQ_Answer": "After the ICO, the example coin will be listed on cryptocurrency exchanges. Each example coin holder can use their coins in exchanges for trading as well as transfer it to other users or make any international payment.",
+  "createdAt": {
+    "$date": "2023-10-07T06:03:10.975Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-07T06:03:10.975Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6520f4ac755d2c52f406049f"
+  },
+  "FAQ_Question": "How do I Buy example coin (EPC) Coins/Tokens?",
+  "FAQ_Answer": "Initially, the Pre-sale ICO begins on 1 March 2018. The purchase of example coin will be available on the in ICO dashboard using payment methods: Credit Card, BTC, ETH, LTC",
+  "createdAt": {
+    "$date": "2023-10-07T06:03:24.069Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-07T06:03:24.069Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6520f4bc755d2c52f40604ad"
+  },
+  "FAQ_Question": "How do I purchase example coin Coins/Tokens?",
+  "FAQ_Answer": "Click the \"Dashboard\" button in the upper left corner of the page. Then select and amount of example coin Coins you would like to buy by putting an amount of USD in the \"Amount of USD\" Box. The box will automatically calculate how many example coin tokens/coins you will be purchasing. Select A payment method, either A credit card, bitcoin, ethereum, or Lightcoin. Once you hit the \"Pay Now\" button, the order will be generated and you will see the unique address, where you need to send coins. Also there is an option to scan QR code and send payment. For Credit Card payments, you will see an input window and you may enter your card information. As soon as you send payment, the order will be in pending status. Once it reaches a minimum of 6 confirmations, the order will be confirmed and related example coin amount will be updated in your dashboard. This may take from 4-48 Hours depending on the number of transactions pending.",
+  "createdAt": {
+    "$date": "2023-10-07T06:03:40.889Z"
+  },
+  "updatedAt": {
+    "$date": "2023-10-09T05:33:07.323Z"
+  },
+  "__v": 0
+}]

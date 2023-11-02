@@ -24,6 +24,8 @@ const KYCSchema = mongoose.Schema({
         type: Date
     },
     Status: { type: String }
+},{
+    timestamps: true,
 });
 
 const KYC = mongoose.model('KYC', KYCSchema);

@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html>
 
-<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 
 <head>
     <meta charset="utf-8">
-    <meta name="author" content="Trevaun Solomon">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="User Dashboard - Buy Token using different cryptocurrency ">
+    <meta name="description" content="User Dashboard = Buy <%= webSettingData.Tokensymbol %> easily">
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="<%= webSettingData.FaviconImage %>">
     <!-- Site Title  -->
-    <title>User Dashboard - Buy Token using different cryptocurrency
+    <title>User Dashboard = Buy <%= webSettingData.Tokensymbol %> easily
     </title>
     <!-- Vendor Bundle CSS -->
     <link rel="stylesheet" href="/css/vendor.bundle7500.css?ver=103">
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="/css/style.css?ver=103">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -41,7 +44,7 @@
                         <img src="<%= webSettingData.DashboardLogo %>" srcset="images/logo-light2x.png 2x" alt="logo">
                     </a>
                     <!-- <a class="topbar-logo" href="/dashboard">
-                        <img src="<%= webSettingData.DashboardLogo %>" srcset="http://localhost:8001/uploads/WebDocs/DashboardLogo-1693999891329.png
+                        <img src="<%= webSettingData.DashboardLogo %>" srcset="process.env.URL/uploads/WebDocs/DashboardLogo-1693999891329.png
                         " alt="logo">
                     </a> -->
                     <ul class="topbar-nav">
@@ -90,9 +93,12 @@
                                     style="font-size: 22px; padding-right: 12px;"></em>Referral</a></li>
                         <li><a href="/transactions"><em class="ikon ikon-transactions"></em> Transactions</a></li>
                         <li><a href="/profile/<%= locals.user._id %>"><em class="ikon ikon-user"></em> Profile</a></li>
-                        <li><a href="/Withdrawal/<%= locals.user._id %>"><em class="ikon ikon-user"></em> Withdrawal</a>
+                        <li><a href="/Withdrawal/<%= locals.user._id %>"><i class="fa-solid fa-money-bill-transfer"
+                                    style="color: #2c80ff; padding-right: 11px; font-size: 19px;"></i> Withdrawal</a>
+                        <li><a href="/FAQs"><i class="fa-regular fa-circle-question"
+                                    style="color: #2c80ff; padding-right: 11px; font-size: 19px; "></i> FAQs</a>
                         </li>
-                        <li><a href="/FAQs"><em class="ikon ikon-user"></em> FAQs</a></li>
+                        <!-- <li><a href="/FAQs"><i class="fa-solid fa-user"></i> FAQs</a></li> -->
                     </ul>
                     <ul class="navbar-btns">
                         <li><a href="/kyc/kycApplication" class="btn btn-sm btn-outline btn-light"><em

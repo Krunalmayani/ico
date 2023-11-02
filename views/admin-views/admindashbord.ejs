@@ -83,35 +83,42 @@
                                     </div>
                                     <% if (latestExpired) { %>
 
-                                    <div class="schedule-item">
-                                        <div class="row">
-                                            <div class="col-xl-5 col-md-5 col-lg-6">
-                                                <div class="pdb-1x">
-                                                    <h5 class="schedule-title"><span>
-                                                            <%= latestExpired.Stage_Name%>
-                                                        </span></h5>
-                                                    <span>Start at <%= latestExpired.Start_Date.toDateString()%></span>
-                                                    <span>End at - <%= latestExpired.End_Date.toDateString()%></span>
+                                        <%for(var i of latestExpired){%>
+
+                                            <div class="schedule-item">
+                                                <div class="row">
+                                                    <div class="col-xl-5 col-md-5 col-lg-6">
+                                                        <div class="pdb-1x">
+                                                            <h5 class="schedule-title"><span>
+                                                                    <%= i.Stage_Name%>
+                                                                </span></h5>
+                                                            <span>Start at <%= i.Start_Date.toDateString()%>
+                                                                    </span>
+                                                            <span>End at - <%= i.End_Date.toDateString()%>
+                                                                    </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-4 col-md col-lg-6">
+                                                        <div class="pdb-1x">
+                                                            <h5 class="schedule-title"><span
+                                                                    class="badge badge-danger ucap badge-xs">Expired</span>
+                                                            </h5>
+                                                            <span>Token Price $<%= i.Base_Token_Price%></span>
+                                                            <span>Token Distribute <%= i.Total_Token%>
+                                                                    <%= webSettingData.Tokensymbol %></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-3 col-md-3 align-self-center text-xl-right">
+                                                        <div class="pdb-1x">
+                                                            <span class="schedule-bonus">
+                                                                <%= i.Bonus_Percentage %>% Bonus
+                                                            </span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4 col-md col-lg-6">
-                                                <div class="pdb-1x">
-                                                    <h5 class="schedule-title"><span
-                                                            class="badge badge-danger ucap badge-xs">Expired</span></h5>
-                                                    <span>Token Price <%= latestExpired.Base_Token_Price%>$</span>
-                                                    <span>Token Distribute <%= latestExpired.Total_Token%>
-                                                            <%= webSettingData.Tokensymbol %></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-3 col-md-3 align-self-center text-xl-right">
-                                                <div class="pdb-1x">
-                                                    <span class="schedule-bonus">
-                                                        <%= latestExpired.Bonus_Percentage %>% Bonus
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+    
+                                            <%}%>
                                     <% } else { %>
                                         <% } %>
 
@@ -247,9 +254,7 @@
                     console.error("Error fetching crypto prices:", error);
                 }
             }
-
             fetchCryptoPrices();
-
             window.addEventListener('load', function () {
                     function FindToken() {
                     var USD = document.getElementById("USD").value;

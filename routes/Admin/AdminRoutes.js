@@ -6,9 +6,8 @@ const adminAuthMiddleware = require('../../config/adminAuthMiddleware');
 
 routes.get("/AdminLogin", AdminController.AdminLogin);
 routes.post("/AdminSession", AdminController.AdminSession);
-
-routes.get("/AdminSignup", AdminController.AdminSignup);
-routes.post("/AdminSignUpData", AdminController.AdminSignUpData);
+// routes.get("/AdminSignup", AdminController.AdminSignup);
+routes.post("/AdminSignUpData",adminAuthMiddleware, AdminController.AdminSignUpData);
 routes.get("/AdminDashbord", adminAuthMiddleware, AdminController.AdminDashbord);
 routes.get("/Transactions",adminAuthMiddleware, AdminController.Transactions);
 routes.get("/Alluser",adminAuthMiddleware, AdminController.Alluser);
@@ -20,7 +19,7 @@ routes.get("/IcoSto",adminAuthMiddleware, AdminController.IcoSto);
 routes.get("/addStage",adminAuthMiddleware, AdminController.addStage);
 routes.post("/AddIcoSto",adminAuthMiddleware, AdminController.AddIcoSto);
 routes.get("/crypto_Address",adminAuthMiddleware, AdminController.crypto_Address);
-routes.post("/AddcryptoAddress",adminAuthMiddleware, AdminController.AddcryptoAddress);
+routes.post("/AddcryptoAddress",adminAuthMiddleware, AdminController.AddcryptoAddress); 
 routes.get("/EditCrypto/:id",adminAuthMiddleware, AdminController.EditCrypto);
 routes.get("/deleteCrypto/:id",adminAuthMiddleware, AdminController.deleteCrypto)
 routes.post("/editecryptoAddress/:id",adminAuthMiddleware, AdminController.editecryptoAddress);
@@ -32,7 +31,11 @@ routes.get("/Transactions_reject/:id",adminAuthMiddleware, AdminController.Trans
 routes.post("/websettingdata",adminAuthMiddleware, AdminController.websettingdata);
 routes.get("/AddIcoStoDelete/:id",adminAuthMiddleware, AdminController.AddIcoStoDelete);
 routes.get("/ApproveWithdrawal/:id",adminAuthMiddleware, AdminController.ApproveWithdrawal)
-routes.get("/RejectWithdrawal/:id",adminAuthMiddleware, AdminController.RejectWithdrawal)
+routes.get("/RejectWithdrawal/:id", adminAuthMiddleware, AdminController.RejectWithdrawal)
+routes.get("/AddFAQS", adminAuthMiddleware, AdminController.AddFAQS)
+routes.post("/AddFAQSData", adminAuthMiddleware, AdminController.AddFAQSData)
+routes.post("/updateFAQSData/:id",adminAuthMiddleware, AdminController.updateFAQSData)
+routes.get("/DeleteFAQSData/:id", adminAuthMiddleware, AdminController.DeleteFAQSData)
 routes.get('/logout', async (req, res) => {
     try {
         console.log(req.session);
@@ -45,7 +48,7 @@ routes.get('/logout', async (req, res) => {
                     console.log(req.session);
                     resolve();
                 }
-            });
+            }); 
         });
         res.clearCookie('Session'); 
         res.redirect('/admin/AdminLogin'); 
@@ -53,5 +56,6 @@ routes.get('/logout', async (req, res) => {
         console.error('Error during logout:', error);
         res.redirect('/'); 
     }
+    
 });
 module.exports = routes;

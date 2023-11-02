@@ -34,7 +34,7 @@ const upload = multer({ storage: storage }).fields([
 module.exports.AdminDashbord = async (req, res) => {
 
     const currentDate = new Date();
-    const latestExpiredStage = await IcoSto.findOne({ End_Date: { $lt: currentDate } }).sort({ End_Date: -1 }).limit(1);
+    const latestExpiredStage = await IcoSto.find({ End_Date: { $lt: currentDate } });
 
     const currentStage = await IcoSto.findOne({
         Start_Date: { $lte: currentDate },
@@ -42,7 +42,7 @@ module.exports.AdminDashbord = async (req, res) => {
     });
 
     const latestUpcomingStage = await IcoSto.findOne({
-        Start_Date: { $gt: currentDate }, 
+        Start_Date: { $gt: currentDate },
     }).sort({ Start_Date: 1 }).limit(1);
 
 
@@ -72,7 +72,7 @@ module.exports.Alluser = async (req, res) => {
 
         data = data.map(item => ({
             ...item.toObject(),
-            formattedCreateTime: formatDate(item.createTime)
+            formattedCreateTime: formatDate(item.createdAt)
         }));
 
         return res.render('admin-views/AllUser', {
@@ -108,18 +108,21 @@ module.exports.AdminLogin = (req, res) => {
     return res.render('admin-views/AdminLogin');
 }
 
-module.exports.AdminSession = (req, res) => {
-    try {
-        
-        const isValidLogin =  true;
+module.exports.AdminSession = async (req, res) => {
+    const { email, password } = req.body;
 
-        if (isValidLogin) {
-            req.session.isAdminLoggedIn = true;
-            res.redirect('/admin/AdminDashbord'); 
-        } else {
+    try {
+        const admin = await Admin.findOne({ email });
+
+        if (!admin || admin.password !== password) {
             req.flash('error', 'Invalid email or password');
-            res.redirect('/admin/AdminLogin'); 
+            return res.redirect('/admin/AdminLogin');
         }
+
+        req.session.user = admin;
+        req.session.isAdminLoggedIn = true;
+
+        return res.redirect('/admin/AdminDashbord');
     } catch (error) {
         console.error(error);
         req.flash('error', 'An error occurred during login');
@@ -146,7 +149,7 @@ module.exports.UserDetails = async (req, res) => {
                 year: 'numeric'
             });
         }
-        return res.render('admin-views/UserDetails',   {
+        return res.render('admin-views/UserDetails', {
             data: data,
             formattedDOB: formattedDOB
         });
@@ -191,18 +194,17 @@ module.exports.updateUserProfile = (req, res) => {
 }
 module.exports.AdminSignUpData = async (req, res) => {
     try {
+        console.log(req.body);
         const existingUser = await Admin.findOne({ email: req.body.email });
         if (existingUser) {
             console.log("You are already registered");
             return res.status(400).send("You are already registered");
         } else {
             if (req.body.password === req.body.confirmPassword) {
-                const currentTime = new Date();
                 const newUser = await Admin.create({
                     name: req.body.name,
                     email: req.body.email,
                     password: req.body.password,
-                    createTime: currentTime,
                     role: "Admin"
                 });
                 if (newUser) {
@@ -259,7 +261,6 @@ module.exports.AddcryptoAddress = async (req, res) => {
             Crypto_Address: req.body.Crypto_Address,
             Crypto_Type: req.body.Crypto_Type,
             Block_explorer: req.body.Block_explorer,
-            Create_time: currentTime,
         });
 
         if (cryptoAddress) {
@@ -291,7 +292,6 @@ module.exports.editecryptoAddress = async (req, res) => {
             Crypto_Address: req.body.Crypto_Address,
             Crypto_Type: req.body.Crypto_Type,
             Block_explorer: req.body.Block_explorer,
-            Update_time: currentTime,
         });
         if (cryptoAddress) {
             req.flash('success', ' Crypto Address edit succesfully..');
@@ -350,22 +350,20 @@ module.exports.websettingdata = async (req, res) => {
                 CopyRightWord,
                 WhitePaperLink,
                 HomePageLink,
+                Stripe_Secret_Key,
+                Stripe_Publishable_Key,
                 Tokensymbol
             } = req.body;
 
-            // Check if FaviconImage file is provided
-            const faviconImage = req.files['FaviconImage']
-                ? `/uploads/WebDocs/${req.files['FaviconImage'][0].filename}`
-                : null;
+            const faviconImage = req.files['FaviconImage'] ? `/uploads/WebDocs/${req.files['FaviconImage'][0].filename}` : null;
+
 
             // Check if DashboardLogo file is provided
-            const dashboardLogo = req.files['DashboardLogo']
-                ? `/uploads/WebDocs/${req.files['DashboardLogo'][0].filename}`
+            const dashboardLogo = req.files['DashboardLogo'] ? `/uploads/WebDocs/${req.files['DashboardLogo'][0].filename}`
                 : null;
 
             // Check if SignUpLoginLogo file is provided
-            const signUpLoginLogo = req.files['SignUpLoginLogo']
-                ? `/uploads/WebDocs/${req.files['SignUpLoginLogo'][0].filename}`
+            const signUpLoginLogo = req.files['SignUpLoginLogo'] ? `/uploads/WebDocs/${req.files['SignUpLoginLogo'][0].filename}`
                 : null;
 
             // Construct the update object
@@ -378,10 +376,11 @@ module.exports.websettingdata = async (req, res) => {
                 CopyRightWord,
                 WhitePaperLink,
                 HomePageLink,
+                Stripe_Secret_Key,
+                Stripe_Publishable_Key,
                 Tokensymbol
             };
 
-            // Add FaviconImage, DashboardLogo, and SignUpLoginLogo to the update object if they exist
             if (faviconImage) {
                 updateFields.FaviconImage = faviconImage;
             }
@@ -394,7 +393,7 @@ module.exports.websettingdata = async (req, res) => {
 
             const updatedWebSetting = await WebSetting.findByIdAndUpdate(
                 '64e9a0fdc365527caca5058a',
-                updateFields, // Use the constructed update object
+                updateFields,
                 { new: true }
             );
 
@@ -472,8 +471,8 @@ module.exports.ApproveWithdrawal = async (req, res) => {
             var transport = nodemailer.createTransport({
                 service: "gmail",
                 auth: {
-                    user: "vishaltesting14@gmail.com",
-                    pass: "zazlmhlgefvvwazq",
+                    user: process.env.EmailAddress,
+                    pass: process.env.EmailAppKEY,
                 },
             });
 
@@ -518,6 +517,7 @@ module.exports.ApproveWithdrawal = async (req, res) => {
         console.error("Error approving withdrawal: " + err);
     }
 }
+
 module.exports.RejectWithdrawal = async (req, res) => {
     try {
         const withdrawalRequest = await Withdrawal.findById(req.params.id);
@@ -532,8 +532,8 @@ module.exports.RejectWithdrawal = async (req, res) => {
                 var transport = nodemailer.createTransport({
                     service: "gmail",
                     auth: {
-                        user: "vishaltesting14@gmail.com",
-                        pass: "zazlmhlgefvvwazq",
+                        user: process.env.EmailAddress,
+                        pass: process.env.EmailAppKEY,
                     },
                 });
 
@@ -633,5 +633,53 @@ module.exports.Transactions_approved = async (req, res) => {
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: "Internal server error." });
+    }
+}
+
+
+const FAQs = require('../../models/FAQ')
+module.exports.AddFAQS = async (req, res) => {
+
+    try {
+        let data = await FAQs.find({});
+        return res.render('admin-views/AddFAQs', {
+            data: data
+        })
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+module.exports.AddFAQSData = (req, res) => {
+    try {
+        var data = FAQs.create(req.body)
+        if (data) {
+            req.flash('success', 'FAQ Add Successfully...');
+            return res.redirect("back")
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+module.exports.updateFAQSData = async (req, res) => {
+    try {
+        let data = await FAQs.findByIdAndUpdate(req.params.id, req.body)
+        if (data) {
+            req.flash('success', 'FAQ Update Successfully...');
+            return res.redirect("back")
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+module.exports.DeleteFAQSData = async (req, res) => {
+    try {
+        let data = await FAQs.findByIdAndDelete(req.params.id)
+        if (data) {
+            req.flash('success', 'FAQ Delete Successfully...');
+            return res.redirect("back")
+        }
+    } catch (error) {
+        console.log(error);
     }
 }

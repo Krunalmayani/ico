@@ -1,0 +1,95 @@
+[{
+  "_id": {
+    "$oid": "64fbf22228da41a41c32f4cc"
+  },
+  "Stage_Name": "Private Sale Phase",
+  "Total_Token": "1000",
+  "Base_Token_Price": "2",
+  "Bonus_Percentage": "1.5",
+  "Start_Date": {
+    "$date": "2023-06-07T00:00:00.000Z"
+  },
+  "End_Date": {
+    "$date": "2023-06-02T00:00:00.000Z"
+  },
+  "Create_Date": {
+    "$date": "2023-09-09T04:18:42.082Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650136029de8d0ab77e87319"
+  },
+  "Stage_Name": "Last Phase",
+  "Total_Token": "5000",
+  "Base_Token_Price": "6",
+  "Bonus_Percentage": "2",
+  "Start_Date": {
+    "$date": "2023-03-02T00:00:00.000Z"
+  },
+  "End_Date": {
+    "$date": "2023-03-30T00:00:00.000Z"
+  },
+  "Create_Date": {
+    "$date": "2023-09-13T04:09:38.233Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6501365e9de8d0ab77e8733b"
+  },
+  "Stage_Name": "ICO NEW",
+  "Total_Token": "5000",
+  "Base_Token_Price": "10",
+  "Bonus_Percentage": "3",
+  "Start_Date": {
+    "$date": "2023-11-23T00:00:00.000Z"
+  },
+  "End_Date": {
+    "$date": "2023-12-31T00:00:00.000Z"
+  },
+  "Create_Date": {
+    "$date": "2023-09-13T04:11:10.088Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6502aed36f577f314705603c"
+  },
+  "Stage_Name": "Last sale",
+  "Total_Token": "5000",
+  "Base_Token_Price": "5",
+  "Bonus_Percentage": "2",
+  "Start_Date": {
+    "$date": "2023-09-14T00:00:00.000Z"
+  },
+  "End_Date": {
+    "$date": "2023-09-30T00:00:00.000Z"
+  },
+  "Create_Date": {
+    "$date": "2023-09-14T06:57:23.998Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6517c412faab482b6b3d7258"
+  },
+  "Stage_Name": "ICO|STO",
+  "Total_Token": "3",
+  "Base_Token_Price": "2",
+  "Bonus_Percentage": "3",
+  "Start_Date": {
+    "$date": "2023-09-29T00:00:00.000Z"
+  },
+  "End_Date": {
+    "$date": "2023-11-23T00:00:00.000Z"
+  },
+  "Create_Date": {
+    "$date": "2023-09-30T06:45:38.952Z"
+  },
+  "__v": 0
+}]

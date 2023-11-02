@@ -1,0 +1,35 @@
+[{
+  "_id": {
+    "$oid": "65421e9402bd31db27d577f4"
+  },
+  "User_id": {
+    "$oid": "653c9fea37c239552c615adc"
+  },
+  "First_Name": "Vishal",
+  "Last_Name": "Test",
+  "Email": "vishaltesting14@gmail.com",
+  "Phone": "885966552",
+  "DOB": {
+    "$date": "2023-11-16T00:00:00.000Z"
+  },
+  "Address_1": "A/34 gfdfb ",
+  "Address_2": "A3/34 ljugcv ",
+  "City": "Surat",
+  "State": "Gujarat",
+  "Nationality": "Armenia",
+  "Zip_Code": "819846",
+  "KYC_Doc": "/uploads/KYC_DOC/KYC_Doc-1698832020249.png",
+  "KYC_Front_Image": "Not Submitted",
+  "KYC_Back_Image": "Not Submitted",
+  "KYC_submit_Time": {
+    "$date": "2023-11-01T09:47:00.353Z"
+  },
+  "Status": "Pending",
+  "createdAt": {
+    "$date": "2023-11-01T09:47:00.359Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-01T09:47:00.359Z"
+  },
+  "__v": 0
+}]

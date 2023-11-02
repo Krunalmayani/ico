@@ -1,4 +1,3 @@
-require('dotenv').config();
 const WebSetting = require('../models/WebSetting');
 const User = require("../models/User")
 const CryptoAddress = require("../models/CryptoAddress");
@@ -16,11 +15,19 @@ const jwt = require('jsonwebtoken');
 module.exports.user = function (req, res) {
     return res.render("index")
 }
+
+
 module.exports.signup = function (req, res) {
-    return res.render("signup")
+    if (req.query.ref) {
+        const referralCode = req.query.ref;
+        res.cookie('referralCode', referralCode, { httpOnly: true });
+    }
+    return res.render("signup");
 }
+
 module.exports.dashboard = async function (req, res) {
     try {
+
         const userId = req.session.passport.user;
         const data = await Transaction.find({ User_id: userId });
         const pendingTransactions = data.filter(transaction => transaction.Status === 'Pending');
@@ -34,7 +41,7 @@ module.exports.dashboard = async function (req, res) {
         const totalWithdrawal = collection.reduce((total, Withdrawal) => total + parseFloat(Withdrawal.Withdrawal_Tokens), 0);
 
         const currentDate = new Date();
-        const latestExpiredStage = await ICOSTO.findOne({ End_Date: { $lt: currentDate } }).sort({ End_Date: -1 }).limit(1);
+        const latestExpiredStage = await ICOSTO.find({ End_Date: { $lt: currentDate } });
 
         const currentStage = await ICOSTO.findOne({
             Start_Date: { $lte: currentDate },
@@ -45,6 +52,15 @@ module.exports.dashboard = async function (req, res) {
             Start_Date: { $gt: currentDate },
         }).sort({ Start_Date: 1 }).limit(1);
 
+        // Check if referral code exists in session
+        const referralCode = req.cookies.referralCode;
+        if (referralCode) {
+            // Update the user's referred_by field with the referral code
+            await User.findByIdAndUpdate(userId, { referred_by: referralCode });
+
+            // Clear the referralCode cookie to remove it from the user's browser
+            res.clearCookie('referralCode');
+        }
 
         return res.render("dashboard", {
             pendingTransaction: totalPayAmount,
@@ -54,13 +70,11 @@ module.exports.dashboard = async function (req, res) {
             currentStage: currentStage,
             latestUpcomingStage: latestUpcomingStage
         });
-
     } catch (error) {
         console.log(error);
     }
-
-
 }
+
 
 module.exports.buytokens = async (req, res) => {
     const currentDate = new Date();
@@ -105,6 +119,7 @@ module.exports.transactions = async (req, res) => {
         return res.status(500).send("Internal Server Error");
     }
 }
+
 module.exports.getRandomCryptoAddress = async (req, res) => {
     try {
         const selectedCryptocurrency = req.query.selectedCryptocurrency;
@@ -130,6 +145,7 @@ module.exports.getRandomCryptoAddress = async (req, res) => {
         res.status(500).json({ error: "Error fetching random Crypto_Address" });
     }
 }
+
 module.exports.profile = async (req, res) => {
     try {
         const userId = req.session.passport.user;
@@ -141,7 +157,7 @@ module.exports.profile = async (req, res) => {
         if (!userReferralCode) {
             return res.status(404).send("Referral code not found");
         }
-        const referralCodeUrl = `${process.env.URL}/signup?ref=${userReferralCode}`;
+        const referralCodeUrl = process.env.URL + `/signup?ref=${userReferralCode}`;
         return res.render("profile", {
             profile: profile,
             referralCodeUrl: referralCodeUrl
@@ -234,7 +250,7 @@ module.exports.Referral = async (req, res) => {
         if (!userReferralCode) {
             return res.status(404).send("Referral code not found");
         }
-        const referralCodeUrl = `${process.env.URL}/signup?ref=${userReferralCode}`;
+        const referralCodeUrl = process.env.URL + `/signup?ref=${userReferralCode}`;
 
         if (referringUser) {
             return res.render("Referral", { referralCodeData: referringUser, referralCodeUrl: referralCodeUrl });
@@ -265,10 +281,17 @@ module.exports.Withdrawal = async (req, res) => {
     }
 }
 
-
+const FAQS = require("../models/FAQ")
 
 module.exports.FAQs = async (req, res) => {
-    return res.render("FAQs");
+    try {
+        let data = await FAQS.find({});
+        return res.render("FAQs", {
+            data: data
+        });
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 
@@ -276,18 +299,25 @@ module.exports.UserSignUpData = async (req, res) => {
     try {
         const existingUser = await User.findOne({ email: req.body.email });
 
+
         if (existingUser) {
-            console.log('You are already registered');
-            return res.status(400).send('You are already registered');
+            if (existingUser.email_status) {
+                console.log('You are already registered');
+                req.flash('success', 'You are already registered. Please log in.');
+                return res.redirect('back');
+            } else {
+                await User.findByIdAndDelete(existingUser._id);
+                console.log(`Deleted unverified user: ${existingUser.email}`);
+                req.flash('success', 'Please register again');
+                return res.redirect('back');
+            }
         }
-
         let newUser;
-
         if (extractReferralCodeFromURL(req.headers.referer)) {
+            console.log('referer called');
             if (req.body.password === req.body.confirmPassword) {
                 const currentTime = new Date();
                 const referralCode = generateRandomCode(7);
-
                 newUser = await User.create({
                     Fname: req.body.Fname,
                     Lname: req.body.Lname,
@@ -295,35 +325,30 @@ module.exports.UserSignUpData = async (req, res) => {
                     phone: req.body.phone,
                     password: req.body.password,
                     country: req.body.country,
-                    createTime: currentTime,
                     role: 'User',
                     status: false,
                     email_status: false,
                     referralCode,
                     referred_by: extractReferralCodeFromURL(req.headers.referer),
                     token_balance: 0,
+                    googleId: "No Login With Google",
                     two_fa_verification: false
                 });
-
                 if (newUser) {
-                    const token = jwt.sign({ userId: newUser._id }, 'your-secret-key', {
+                    const token = jwt.sign({ userId: newUser._id }, 'Jasmin', {
                         expiresIn: '24h',
                     });
-
                     newUser.token = token;
                     await newUser.save();
-
-                    const loginPageURL = `${process.env.URL}/login`; // Define the login page URL
+                    const loginPageURL = process.env.URL + '/login';
                     const confirmationLink = `${loginPageURL}?token=${encodeURIComponent(token)}&email=${encodeURIComponent(newUser.email)}`;
-
                     const transport = nodemailer.createTransport({
                         service: 'gmail',
                         auth: {
-                            user: "vishaltesting14@gmail.com",
-                            pass: "zazlmhlgefvvwazq",
+                            user: process.env.EmailAddress,
+                            pass: process.env.EmailAppKEY,
                         },
                     });
-
                     const info = await transport.sendMail({
                         from: 'vishaltesting14@gmail.com',
                         to: req.body.email,
@@ -351,7 +376,8 @@ module.exports.UserSignUpData = async (req, res) => {
                     });
 
                     console.log('User registered successfully');
-                    return res.redirect('/login');
+                    req.flash('success', 'chack mail and complete your Email verification ');
+                    return res.redirect('back');
                 }
             } else {
                 return res.status(400).send('Passwords do not match');
@@ -360,7 +386,6 @@ module.exports.UserSignUpData = async (req, res) => {
             if (req.body.password === req.body.confirmPassword) {
                 const currentTime = new Date();
                 const referralCode = generateRandomCode(7);
-
                 newUser = await User.create({
                     Fname: req.body.Fname,
                     Lname: req.body.Lname,
@@ -368,12 +393,12 @@ module.exports.UserSignUpData = async (req, res) => {
                     phone: req.body.phone,
                     password: req.body.password,
                     country: req.body.country,
-                    createTime: currentTime,
                     role: 'User',
                     status: true,
                     email_status: false,
                     referralCode,
                     referred_by: null,
+                    googleId: "No Login With Google",
                     token_balance: 0,
                     two_fa_verification: false
                 });
@@ -387,32 +412,32 @@ module.exports.UserSignUpData = async (req, res) => {
                     newUser.token = token;
                     await newUser.save();
 
-                    const loginPageURL = `${process.env.URL}/login`;
+                    const loginPageURL = process.env.URL + '/login';
                     const confirmationLink = `${loginPageURL}?token=${encodeURIComponent(token)}&email=${encodeURIComponent(newUser.email)}`;
                     const transport = nodemailer.createTransport({
                         service: 'gmail',
                         auth: {
-                            user: "vishaltesting14@gmail.com",
-                            pass: "zazlmhlgefvvwazq",
+                            user: process.env.EmailAddress,
+                            pass: process.env.EmailAppKEY,
                         },
                     });
                     const info = await transport.sendMail({
                         from: 'vishaltesting14@gmail.com',
                         to: req.body.email,
                         subject: 'Registration Confirmation',
-                        html: `
+                        html: ` 
                         <html>
         <head>
             <style>
                 /* Add your email styles here if needed */
             </style>
         </head>
-        <body>
+        <body> 
             <h1>Welcome to [Your Website Name]</h1>
             <p>Dear ${req.body.Fname} ${req.body.Lname},</p>
             <p>Welcome to [Your Website Name]! We are thrilled to have you join our platform. We are excited to have you as a part of our community.</p>
             <p>To confirm your email and complete your registration, please click the following link:</p>
-            <a href="${confirmationLink}">${confirmationLink}</a>
+            <a href="${confirmationLink}">${confirmationLink}</a> 
             <p>If you have any questions, require assistance, or need guidance on buying tokens, please don't hesitate to contact our support team. Your satisfaction and success are important to us.</p>
             <p>Once again, welcome to [Your Website Name]! We look forward to helping you navigate the world of digital assets.</p>
             <p>Best regards,</p>
@@ -421,8 +446,10 @@ module.exports.UserSignUpData = async (req, res) => {
         </html>   `,
                     });
 
+                    console.log("info", info);
                     console.log('User registered successfully');
-                    return res.redirect('/login');
+                    req.flash('success', 'chack mail and complete your Email verification ');
+                    return res.redirect('back');
                 }
             } else {
                 return res.status(400).send('Passwords do not match');
@@ -452,39 +479,10 @@ function extractReferralCodeFromURL(url) {
     return queryParams.get('ref') || null;
 }
 
-module.exports.dashbordsession = async (req, res) => {
-    try {
-        const user = await User.findOne({ email: req.body.email });
-
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-
-        if (user.email_status) {
-            req.flash('success', 'Email already verified.');
-            return res.redirect('/dashboard');
-        }
-
-        if (!user.email_status && user.token === req.body.token) {
-            user.email_status = true;
-            await user.save();
-
-            req.flash('success', 'Email verified successfully.');
-            return res.redirect('/dashboard');
-        }
-
-        req.flash('error', 'Token not found or does not match.');
-        return res.redirect('/signup');
-    } catch (error) {
-        console.error(error);
-        return res.status(500).send('Internal Server Error');
-    }
-};
-
-
 
 module.exports.login = (req, res) => {
     if (req.isAuthenticated()) {
+
         return res.redirect('/dashboard');
     }
     return res.render('login');
@@ -524,126 +522,139 @@ exports.userPasswordUpdate = async (req, res) => {
 };
 
 
+const stripe = require('stripe');
 
 module.exports.transactionData = async (req, res) => {
+
     try {
+
         const currentDateTime = new Date();
         req.body.Transaction_submit_Time = currentDateTime;
         req.body.Status = 'Pending';
-        const transactionsdata = await Transaction.create(req.body);
-        if (transactionsdata) {
-            req.flash('success', 'Transaction request sent successfully.');
-            const referredUser = await User.findById(req.body.User_id);
-            if (referredUser.referred_by == null) {
-                useremail = await User.findById(req.body.User_id);
-                const id = '64e9a0fdc365527caca5058a';
-                const webcoin = await WebSetting.findById(id);
-                var transport = nodemailer.createTransport({
-                    service: "gmail",
-                    auth: {
-                        user: "vishaltesting14@gmail.com",
-                        pass: "zazlmhlgefvvwazq",
-                    },
-                });
-                let info = transport.sendMail({
-                    from: "vishaltesting14@gmail.com",
-                    to: useremail.email,
-                    subject: "Welcome to [ Website Name] - Your Gateway to Digital Tokens!",
-                    html: `
-                    <html>
-                    <head>
-                       
-                    </head>
-                    <body>
-                    <div class="container">
-                    <h1 class="label">Confirmation of Your Token Purchase on [Your Website Name]</h1>
-                    <p class="label">Dear [User's Name],</p>
-                    <p>We are delighted to confirm your recent token purchase on [Your Website Name]. Your transaction details are as follows:</p>
-                    <p><strong>Purchase Amount (in USD):</strong> ${transactionsdata.Usd} $</p>
-                    <p><strong>Payment Method:</strong> ${transactionsdata.Method}</p>
-                    <p><strong>Token Amount:</strong> ${transactionsdata.Token} ${webcoin.Tokensymbol}</p>
-                    <p><strong>Bonus Tokens:</strong> ${transactionsdata.Bonus} ${webcoin.Tokensymbol}</p>
-                    <p><strong>Total Tokens Received:</strong> ${transactionsdata.Total_Token} ${webcoin.Tokensymbol}</p>
-                    <p>Your purchase has been successfully processed, and the tokens have been added to your account. You can now explore the exciting possibilities that come with owning these tokens on our platform.</p>
-                    <p>If you have any questions about your purchase or need further assistance, please don't hesitate to contact our support team at [Support Email Address]. We're here to provide any information or guidance you may require.</p>
-                    <p>Thank you for choosing [Your Website Name] for your token purchase. We appreciate your trust and look forward to your continued involvement in our community.</p>
-                    <p>Best regards,</p>
-                    <p>[Your Name]</p>
-                    </div>
-                    </body>
-                    </html>
-                `,
-                });
-                return res.redirect('back');
-            }
-            else {
-                const currentDate = new Date();
-                const bonusPercentage = await ICOSTO.findOne({
-                    Start_Date: { $lte: currentDate },
-                    End_Date: { $gte: currentDate },
-                });
-                const commission = parseFloat(req.body.Total_Token) * (bonusPercentage.Bonus_Percentage / 100);
-                const referral = new Referral({
-                    User_id: referredUser._id,
-                    referred_Userid: transactionsdata.User_id,
-                    Transactions_id: transactionsdata._id,
-                    Usd: req.body.Usd,
-                    purchase_token: req.body.Total_Token,
-                    Commission: commission,
-                    referral_Date: currentDateTime,
-                    referralCode: referredUser.referred_by,
-                });
-                await referral.save();
-                transactionsdata.referred_id = referral._id;
-                await transactionsdata.save();
-                useremail = await User.findById(req.body.User_id);
-                const id = '64e9a0fdc365527caca5058a';
-                const webcoin = await WebSetting.findById(id);
-                var transport = nodemailer.createTransport({
-                    service: "gmail",
-                    auth: {
-                        user: "vishaltesting14@gmail.com",
-                        pass: "zazlmhlgefvvwazq",
-                    },
-                });
-                let info = transport.sendMail({
-                    from: "vishaltesting14@gmail.com",
-                    to: useremail.email,
-                    subject: "testing mail",
-                    html: `
-                    <html>
-                    <head>
-                    </head>
-                    <body>
-                        <div class="container">
-                            <h1 class="label">Confirmation of Your Token Purchase on [Your Website Name]</h1>
-                            <p class="label">Dear [User's Name],</p>
-                            <p>We are delighted to confirm your recent token purchase on [Your Website Name]. Your transaction details are as follows:</p>
-                            <p><strong>Purchase Amount (in USD):</strong> ${transactionsdata.Usd} $</p>
-                            <p><strong>Payment Method:</strong> ${transactionsdata.Method}</p>
-                            <p><strong>Token Amount:</strong> ${transactionsdata.Token} ${webcoin.Tokensymbol}</p>
-                            <p><strong>Bonus Tokens:</strong> ${transactionsdata.Bonus} ${webcoin.Tokensymbol}</p>
-                            <p><strong>Total Tokens Received:</strong> ${transactionsdata.Total_Token} ${webcoin.Tokensymbol}</p>
-                            <p>Your purchase has been successfully processed, and the tokens have been added to your account. You can now explore the exciting possibilities that come with owning these tokens on our platform.</p>
-                            <p>If you have any questions about your purchase or need further assistance, please don't hesitate to contact our support team at [Support Email Address]. We're here to provide any information or guidance you may require.</p>
-                            <p>Thank you for choosing [Your Website Name] for your token purchase. We appreciate your trust and look forward to your continued involvement in our community.</p>
-                            <p>Best regards,</p>
-                            <p>[Your Name]</p>
-                        </div>
-                    </body>
-                    </html>
-                `,
-                });
-                return res.redirect('back');
-            }
-        }
 
+            const transactionsdata = await Transaction.create(req.body);
+
+            if (transactionsdata) {
+                req.flash('success', 'Transaction request sent successfully.');
+                const referredUser = await User.findById(req.body.User_id);
+
+                if (referredUser.referred_by == null) {
+                    useremail = await User.findById(req.body.User_id);
+                    const id = '64e9a0fdc365527caca5058a';
+                    const webcoin = await WebSetting.findById(id);
+                    var transport = nodemailer.createTransport({
+                        service: "gmail",
+                        auth: {
+                            user: process.env.EmailAddress,
+                            pass: process.env.EmailAppKEY,
+                        },
+                    });
+                    let info = transport.sendMail({
+                        from: "vishaltesting14@gmail.com",
+                        to: useremail.email,
+                        subject: "Welcome to [ Website Name] - Your Gateway to Digital Tokens!",
+                        html: `
+                                        <html>
+                                        <head>
+                                            
+                                        </head>
+                                        <body>
+                                        <div class="container">
+                                        <h1 class="label">Confirmation of Your Token Purchase on [Your Website Name]</h1>
+                                        <p class="label">Dear [User's Name],</p>
+                                        <p>We are delighted to confirm your recent token purchase on [Your Website Name]. Your transaction details are as follows:</p>
+                                        <p><strong>Purchase Amount (in USD):</strong> ${transactionsdata.Usd} $</p>
+                                        <p><strong>Payment Method:</strong> ${transactionsdata.Method}</p>
+                                        <p><strong>Token Amount:</strong> ${transactionsdata.Token} ${webcoin.Tokensymbol}</p>
+                                        <p><strong>Bonus Tokens:</strong> ${transactionsdata.Bonus} ${webcoin.Tokensymbol}</p>
+                                        <p><strong>Total Tokens Received:</strong> ${transactionsdata.Total_Token} ${webcoin.Tokensymbol}</p>
+                                        <p>Your purchase has been successfully processed, and the tokens have been added to your account. You can now explore the exciting possibilities that come with owning these tokens on our platform.</p>
+                                        <p>If you have any questions about your purchase or need further assistance, please don't hesitate to contact our support team at [Support Email Address]. We're here to provide any information or guidance you may require.</p>
+                                        <p>Thank you for choosing [Your Website Name] for your token purchase. We appreciate your trust and look forward to your continued involvement in our community.</p>
+                                        <p>Best regards,</p>
+                                        <p>[Your Name]</p>
+                                        </div>
+                                        </body>
+                                        </html>
+                                    `,
+                    });
+                    return res.redirect('back');
+                } else {
+                    const currentDate = new Date();
+                    const idrefferal = '64e9a0fdc365527caca5058a';
+                    const bonusPercentage = await WebSetting.findById(idrefferal);
+                    const commission = parseFloat(req.body.Total_Token) * (bonusPercentage.Referral_Commission / 100);
+                    const referral = new Referral({
+                        User_id: referredUser._id,
+                        referred_Userid: transactionsdata.User_id,
+                        Transactions_id: transactionsdata._id,
+                        Usd: req.body.Usd,
+                        purchase_token: req.body.Total_Token,
+                        Commission: commission,
+                        referral_Date: currentDateTime,
+                        referralCode: referredUser.referred_by,
+                    });
+                    await referral.save();
+                    transactionsdata.referred_id = referral._id;
+                    await transactionsdata.save();
+                    useremail = await User.findById(req.body.User_id);
+                    const id = '64e9a0fdc365527caca5058a';
+                    const webcoin = await WebSetting.findById(id);
+                    var transport = nodemailer.createTransport({
+                        service: "gmail",
+                        auth: {
+                            user: process.env.EmailAddress,
+                            pass: process.env.EmailAppKEY,
+                        },
+                    });
+                    let info = transport.sendMail({
+                        from: "vishaltesting14@gmail.com",
+                        to: useremail.email,
+                        subject: "testing mail",
+                        html: `
+                                        <html>
+                                        <head>
+                                        </head>
+                                        <body>
+                                            <div class="container">
+                                                <h1 class="label">Confirmation of Your Token Purchase on [Your Website Name]</h1>
+                                                <p class="label">Dear [User's Name],</p>
+                                                <p>We are delighted to confirm your recent token purchase on [Your Website Name]. Your transaction details are as follows:</p>
+                                                <p><strong>Purchase Amount (in USD):</strong> ${transactionsdata.Usd} $</p>
+                                                <p><strong>Payment Method:</strong> ${transactionsdata.Method}</p>
+                                                <p><strong>Token Amount:</strong> ${transactionsdata.Token} ${webcoin.Tokensymbol}</p>
+                                                <p><strong>Bonus Tokens:</strong> ${transactionsdata.Bonus} ${webcoin.Tokensymbol}</p>
+                                                <p><strong>Total Tokens Received:</strong> ${transactionsdata.Total_Token} ${webcoin.Tokensymbol}</p>
+                                                <p>Your purchase has been successfully processed, and the tokens have been added to your account. You can now explore the exciting possibilities that come with owning these tokens on our platform.</p>
+                                                <p>If you have any questions about your purchase or need further assistance, please don't hesitate to contact our support team at [Support Email Address]. We're here to provide any information or guidance you may require.</p>
+                                                <p>Thank you for choosing [Your Website Name] for your token purchase. We appreciate your trust and look forward to your continued involvement in our community.</p>
+                                                <p>Best regards,</p>
+                                                <p>[Your Name]</p>
+                                              
+                                            </div>
+                                        </body>
+                                        </html>
+                                    `,
+                    });
+                    return res.redirect('back');
+                }
+            }
+        
     } catch (error) {
         console.log(error);
     }
 };
 
-
+module.exports.DisabledTwoFA = async (req, res) => {
+    try {
+        let data = await User.findByIdAndUpdate(req.params.id, { two_fa_verification: false })
+        if (data) {
+            return res.redirect('back')
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 module.exports.addWithdrawalRequest = async (req, res) => {
     try {
         req.body.Withdrawal_date = new Date();
@@ -673,8 +684,8 @@ module.exports.addWithdrawalRequest = async (req, res) => {
                 var transport = nodemailer.createTransport({
                     service: "gmail",
                     auth: {
-                        user: "vishaltesting14@gmail.com",
-                        pass: "zazlmhlgefvvwazq",
+                        user: process.env.EmailAddress,
+                        pass: process.env.EmailAppKEY,
                     },
                 });
                 let info = await transport.sendMail({
@@ -734,12 +745,12 @@ module.exports.SendEmail = async (req, res) => {
             const transport = nodemailer.createTransport({
                 service: "gmail",
                 auth: {
-                    user: "vishaltesting14@gmail.com",
-                    pass: "zazlmhlgefvvwazq",
+                    user: process.env.EmailAddress,
+                    pass: process.env.EmailAppKEY,
                 },
             });
 
-            const loginPageURL = `${process.env.URL}/changepassword`;
+            const loginPageURL = process.env.URL + '/changepassword';
             const confirmationLink = `${loginPageURL}?token=${userData.token}&email=${userData.email}`;
 
             const info = await transport.sendMail({
@@ -771,15 +782,15 @@ module.exports.SendEmail = async (req, res) => {
                     </html>
                 `,
             });
-
+            req.flash('success', 'Password Reset Request successfully check your email');
             return res.redirect("back");
         } else {
-
-            return res.status(404).send("User not found");
+            req.flash('success', 'plese enter valid email');
+            return res.redirect("back");
         }
     } catch (error) {
-        console.error('Error sending email:', error);
-        return res.status(500).send('Error sending email');
+        req.flash('success', 'Error During Send Mail plese try again ');
+        return res.redirect("back");
     }
 };
 
@@ -789,23 +800,19 @@ module.exports.ChangeAccountPassword = async (req, res) => {
         const token = req.body.token;
         const newPassword = req.body.New_password;
         const confirmPassword = req.body.Confirm_password;
-
         if (newPassword !== confirmPassword) {
-            console.log("Passwords do not match");
+            req.flash('success', 'new password and confirm password are not the same');
             return res.redirect('back');
         }
         const user = await User.findOne({ token });
-
         if (!user) {
             console.log("User not found");
             return res.redirect('back');
         }
-
         user.password = newPassword;
         await user.save();
-
+        req.flash('success', 'Password Chang Successfully');
         return res.redirect("/login");
-
     } catch (error) {
         console.error(error);
         return res.status(500).send("Internal Server Error");
@@ -816,37 +823,54 @@ module.exports.changepassword = async (req, res) => {
     return res.render('changepassword')
 }
 
-
 module.exports.checkLoginTwoFAcode = async (req, res) => {
     try {
         const user = await User.findById(req.user._id);
-
         if (!user) {
             return res.status(404).send('User not found');
         }
-
         if (!user.two_fa_verification) {
-
-            console.log("1");
             return res.redirect('/dashboard');
         }
-
         const isVerified = speakeasy.totp.verify({
             secret: user.two_fa_secret,
             encoding: 'ascii',
             token: req.body.otpCode,
             window: 2,
         });
-
         if (isVerified) {
             req.session.is2FAVerified = true;
-            return res.redirect('/dashboard');
+            res.redirect('/dashboard');
         } else {
-            console.log("Invalid OTP");
-            return res.status(401).send('Invalid OTP');
+            req.flash('error', 'Invalid OTP');
+            res.clearCookie('Session');
+
+            res.redirect('/login');
         }
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred' });
     }
+}
+
+module.exports.StripePaymentData = async (req, res) => { 
+    
+    stripe.customers.create({
+        email: email,
+        source: 'tok_visa', // Use a valid test token
+    }).then(customer => {
+        return stripe.charges.create({
+            amount: 100 * 2000,  // Change this to the desired amount in cents
+            currency: 'usd',  // Change this to your desired currency
+            customer: customer.id,
+        });
+    }).then(charge => {
+        // Payment success 
+        console.log(charge);
+        return res.redirect('back')
+    }).catch(error => {
+        console.error(error);
+        res.status(500).send('Payment failed');
+    });
+
 }

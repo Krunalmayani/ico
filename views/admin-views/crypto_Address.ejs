@@ -66,7 +66,7 @@
                         <thead>
                             <tr class="data-item data-head">
                                 <th class="data-col dt-user">Crypto Address</th>
-                                <th class="data-col dt-doc-type">Crypto</th>
+                                <th class="data-col dt-doc-type">Block Chain</th>
                                 <th class="data-col dt-status">Action</th>
                             </tr>
                         </thead>
@@ -84,7 +84,58 @@
                                     </td>
                                     <td class="data-col dt-user">
                                         <span class="lead user-name">
-                                            <%=i.Crypto_Type %>
+                                            <% if (i.Crypto_Type==="ethereum" ) { %>
+                                                <a style="text-transform: capitalize; font-weight: bold" href="https://etherscan.io/address/<%= i.Crypto_Address %>"
+                                                    target="_blank">
+                                                    <%=i.Crypto_Type %>
+                                                    <em style="font-size: 10px; font-weight: 900; font-size: 12px;font-size: 12px;"
+                                                            class="ti ti-search"></em>
+                                                </a>
+                                                <% } else if (i.Crypto_Type==="bitcoin" ) { %>
+                                                    <a  style="text-transform: capitalize; font-weight: bold" target="_blank"
+                                                        href="https://bitaps.com/<%= i.Crypto_Address %>">
+                                                        <%=i.Crypto_Type %>
+                                                        <em style="font-size: 10px; font-weight: 900; font-size: 12px;"
+                                                            class="ti ti-search"></em>
+                                                    </a>
+                                                    <% } else if (i.Crypto_Type==="solana" ) { %>
+
+                                                        <a  style="text-transform: capitalize; font-weight: bold;" href="https://solscan.io/search?q=<%= i.Crypto_Address %>" target="_blank">
+                                                            <%=i.Crypto_Type %>
+                                                            <em style="font-size: 10px; font-weight: 900; font-size: 12px;"
+                                                            class="ti ti-search"></em>
+                                                        </a>
+                                                        <% } else if (i.Crypto_Type==="USDT(ERC20)" ) { %>
+                                                            <a style="font-weight: bold" target="_blank"
+                                                                href="https://etherscan.io/token/0xdac17f958d2ee523a2206206994597c13d831ec7?a=<%= i.Crypto_Address %>">
+                                                                <%=i.Crypto_Type %>
+                                                                <em style="font-size: 10px; font-weight: 900; font-size: 12px; "
+                                                            class="ti ti-search"></em>
+                                                            </a>
+                                                            <% } else if (i.Crypto_Type==="USDT(BEP20)" ) { %>
+
+                                                                <a style="font-weight: bold" target="_blank" href="https://bscscan.com/token/0x55d398326f99059ff775485246999027b3197955?a=<%= i.Crypto_Address %>">
+                                                                    <%=i.Crypto_Type %>
+                                                                    <em style="font-size: 10px; font-weight: 900;"
+                                                            class="ti ti-search"></em>
+                                                                </a>
+                                                                <% } else if (i.Crypto_Type==="USDT(TRC20)" ) { %>
+                                                                    <a style="font-weight: bold" target="_blank"
+                                                                        href="https://tronscan.org/#/address/<%= i.Crypto_Address %>">
+                                                                        <%=i.Crypto_Type %>
+                                                                        <em style="font-size: 10px;  font-weight: 900; font-size: 12px;"
+                                                            class="ti ti-search"></em>
+                                                                    </a>
+                                                                    <% } else if (i.Crypto_Type==="USDC(ERC20)" ) { %>
+
+                                                                        <a style="font-weight: bold"  href="https://etherscan.io/token/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48?a=<%= i.Crypto_Address %>">
+                                                                            <%=i.Crypto_Type %>
+                                                                            <em style="font-size: 10px; font-weight: 900;font-size: 12px;"
+                                                            class="ti ti-search"></em>
+                                                                        </a>
+                                                                        <% } else { %>
+                                                                            
+                                                                            <% } %>
                                         </span>
                                     </td>
                                     <td class="data-col text-center">

@@ -1,11 +1,13 @@
 <%- include('header') %>
     <div class="page-content">
         <div class="container">
+          
             <%if(flash.success && flash.success.length> 0){%>
                 <div class="alert form-control" style="padding-left: 25px; color: black; padding-top: 8px;">
                     <%=flash.success%>
                 </div>
                 <%}%>
+
                     <div class="row">
 
                         <div class="col-lg-4">
@@ -133,39 +135,43 @@
                                         <h5 class="card-title card-title-md">ICO Schedule</h5>
                                     </div>
                                     <% if (latestExpired) { %>
+                                        <%for(var i of latestExpired){%>
 
-                                        <div class="schedule-item">
-                                            <div class="row">
-                                                <div class="col-xl-5 col-md-5 col-lg-6">
-                                                    <div class="pdb-1x">
-                                                        <h5 class="schedule-title"><span>
-                                                                <%= latestExpired.Stage_Name%>
-                                                            </span></h5>
-                                                        <span>Start at <%= latestExpired.Start_Date.toDateString()%>
-                                                                </span>
-                                                        <span>End at - <%= latestExpired.End_Date.toDateString()%>
-                                                                </span>
+                                            <div class="schedule-item">
+                                                <div class="row">
+                                                    <div class="col-xl-5 col-md-5 col-lg-6">
+                                                        <div class="pdb-1x">
+                                                            <h5 class="schedule-title"><span>
+                                                                    <%= i.Stage_Name%>
+                                                                </span></h5>
+                                                            <span>Start at <%= i.Start_Date.toDateString()%>
+                                                                    </span>
+                                                            <span>End at - <%= i.End_Date.toDateString()%>
+                                                                    </span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-xl-4 col-md col-lg-6">
-                                                    <div class="pdb-1x">
-                                                        <h5 class="schedule-title"><span
-                                                                class="badge badge-danger ucap badge-xs">Expired</span>
-                                                        </h5>
-                                                        <span>Token Price <%= latestExpired.Base_Token_Price%>$</span>
-                                                        <span>Token Distribute <%= latestExpired.Total_Token%>
-                                                                <%= webSettingData.Tokensymbol %></span>
+                                                    <div class="col-xl-4 col-md col-lg-6">
+                                                        <div class="pdb-1x">
+                                                            <h5 class="schedule-title"><span
+                                                                    class="badge badge-danger ucap badge-xs">Expired</span>
+                                                            </h5>
+                                                            <span>Token Price $<%= i.Base_Token_Price%></span>
+                                                            <span>Token Distribute <%= i.Total_Token%>
+                                                                    <%= webSettingData.Tokensymbol %></span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-xl-3 col-md-3 align-self-center text-xl-right">
-                                                    <div class="pdb-1x">
-                                                        <span class="schedule-bonus">
-                                                            <%= latestExpired.Bonus_Percentage %>% Bonus
-                                                        </span>
+                                                    <div class="col-xl-3 col-md-3 align-self-center text-xl-right">
+                                                        <div class="pdb-1x">
+                                                            <span class="schedule-bonus">
+                                                                <%= i.Bonus_Percentage %>% Bonus
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+    
+                                            <%}%>
+
                                         <% } else { %>
                                             <% } %>
 
@@ -191,8 +197,8 @@
                                                                     <h5 class="schedule-title"><span
                                                                             class="badge badge-success ucap badge-xs">Running</span>
                                                                     </h5>
-                                                                    <span>Token Price <%=
-                                                                            currentStage.Base_Token_Price%>$</span>
+                                                                    <span>Token Price $<%=
+                                                                            currentStage.Base_Token_Price%></span>
                                                                     <span>Token Distribute <%=
                                                                             currentStage.Total_Token%>
                                                                             <%= webSettingData.Tokensymbol %></span>
@@ -237,9 +243,9 @@
                                                                                 <h5 class="schedule-title"><span
                                                                                         class="badge badge-disabled ucap badge-xs">Upcomming</span>
                                                                                 </h5>
-                                                                                <span>Token Price <%=
+                                                                                <span>Token Price $<%=
                                                                                         latestUpcomingStage.Base_Token_Price%>
-                                                                                        $</span>
+                                                                                        </span>
                                                                                 <span>Token Distribute <%=
                                                                                         latestUpcomingStage.Total_Token%>
                                                                                         <%= webSettingData.Tokensymbol

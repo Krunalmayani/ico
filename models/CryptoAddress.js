@@ -13,13 +13,8 @@ const CryptoAddressSchema = mongoose.Schema({
     Block_explorer: {
         type: String,
     },
-    Create_time: {
-        type: Date
-    },
-    Update_time: {  
-        type: Date
-    }
-});
+  
+},{timestamps: true});
 
 const CryptoAddress = mongoose.model("CryptoAddress", CryptoAddressSchema);
 module.exports = CryptoAddress;

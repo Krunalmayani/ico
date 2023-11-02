@@ -132,9 +132,7 @@
                                                     <input type="submit" class="btn btn-primary" value="Update Profile"
                                                         onclick="ss()">
                                                     <div class="gaps-2x d-sm-none"></div>
-                                                    <span class="text-success"><em class="ti ti-check-box"></em> All
-                                                        Changes are
-                                                        saved</span>
+                                                    
                                                 </div>
                                             </form><!-- form -->
                                         </div><!-- .tab-pane -->
@@ -182,8 +180,6 @@
                                                 <div class="d-sm-flex justify-content-between align-items-center">
                                                     <button type="submit" class="btn btn-primary">Update</button>
                                                     <div class="gaps-2x d-sm-none"></div>
-                                                    <span class="text-success"><em class="ti ti-check-box"></em> Changed
-                                                        Password</span>
                                                 </div>
                                             </form>
                                         </div><!-- .tab-pane -->
@@ -192,7 +188,6 @@
                             </div><!-- .card -->
                         </div><!-- .col -->
                         <div class="aside sidebar-right col-lg-4">
-
                             <div class="referral-info card">
                                 <div class="card-innr">
                                     <h6 class="card-title card-title-sm">Earn with Referral</h6>
@@ -226,6 +221,7 @@
                                         <span class="mb-0"><small>Current Status:</small></span>
                                         <%if(locals.user.two_fa_verification == true){ %> 
                                         <span class="badge badge-success ml-2">Enabled</span>
+                                        
                                         <%} else{%>
                                         <span class="badge badge-disabled ml-2">Disabled</span>
                                         <%}%>
@@ -237,6 +233,12 @@
                                             <button data-toggle="modal" data-target="#modal-large"
                                                 class="btn btn-primary" id="fetchDataButton">Enable 2FA
                                             </button>
+                                        </div>
+                                        <div>
+                                            <div class="col-sm-6 col-lg-3" style="display: block;">
+                                                <a href="/DisabledTwoFA/<%=locals.user.id%>" class="btn btn-primary">Disabled</a>
+                                                
+                                            </div>
                                         </div>
                                         <% }else{ %>
                                             <div class="col-sm-6 col-lg-3" style="display: block;">

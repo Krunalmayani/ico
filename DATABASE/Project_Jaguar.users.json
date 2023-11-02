@@ -1,0 +1,53 @@
+[{
+  "_id": {
+    "$oid": "653c9fea37c239552c615adc"
+  },
+  "Fname": "Vishal",
+  "Lname": "Test",
+  "email": "vishaltesting14@gmail.com",
+  "phone": "885966552",
+  "password": "123",
+  "country": "India",
+  "role": "User",
+  "status": true,
+  "email_status": true,
+  "referralCode": "UvzNkVG",
+  "referred_by": null,
+  "token_balance": 0,
+  "two_fa_verification": false,
+  "googleId": "No Login With Google",
+  "createdAt": {
+    "$date": "2023-10-28T05:45:14.228Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-02T04:10:43.023Z"
+  },
+  "__v": 0,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTNjOWZlYTM3YzIzOTU1MmM2MTVhZGMiLCJpYXQiOjE2OTg0NzE5MTQsImV4cCI6MTY5ODU1ODMxNH0.7EffHH0Z1Iq5O7towVYE-8TAuRSPgfV1yAVShogBRKc",
+  "Kyc_id": {
+    "$oid": "65421e9402bd31db27d577f4"
+  }
+},
+{
+  "_id": {
+    "$oid": "654238bc3070d0054dd7b449"
+  },
+  "Fname": "Jasmin",
+  "Lname": "koladiya",
+  "email": "jasminkoladiya098@gmail.com",
+  "role": "User",
+  "status": true,
+  "email_status": true,
+  "referralCode": "Cn5oukz",
+  "referred_by": "UvzNkVG",
+  "token_balance": 0,
+  "googleId": "103075308064156785872",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTQyMzhiYzMwNzBkMDA1NGRkN2I0NDkiLCJpYXQiOjE2OTg4Mzg3MTYsImV4cCI6MTY5ODkyNTExNn0.CUZ6W9AUgUhZGCBzHRNALF-3A7qNaMvczxA3IAAhRDM",
+  "createdAt": {
+    "$date": "2023-11-01T11:38:36.633Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-01T11:38:36.659Z"
+  },
+  "__v": 0
+}]

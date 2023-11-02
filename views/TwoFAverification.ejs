@@ -33,6 +33,11 @@
             </div>
             <div class="page-ath-form">
                 <h2 class="page-ath-heading">Check Authentication Code</h2>
+                <%if(flash.success && flash.success.length> 0){%>
+                    <div class="alert form-control" style="padding-left: 25px; color: black; padding-top: 8px;">
+                        <%=flash.success%>
+                    </div>
+                    <%}%>
                 <form action="/checkLoginTwoFAcode" method="post">
                     <div class="input-item">
                         <input type="number" placeholder="Your Code" name="otpCode" maxlength="6"
@@ -66,6 +71,12 @@
 
     <script src="/js/jquery.bundle7500.js?ver=103"></script>
     <script src="/js/script7500.js?ver=103"></script>
+    <script>
+        // Override the browser's back button functionality
+        window.addEventListener('popstate', function (event) {
+          history.pushState(null, null, document.URL);
+        });
+      </script>
 </body>
 
 <!-- Mirrored from ico.pjaguar.com/forgot.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 14 Aug 2023 06:51:15 GMT -->

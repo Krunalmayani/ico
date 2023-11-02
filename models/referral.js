@@ -20,6 +20,8 @@ const ReferralSchema = mongoose.Schema({
     Commission: { type: Number },
     referral_Date: { type: Date },
 
+},{
+    timestamps: true,
 });
 
 const Referral = mongoose.model('Referral', ReferralSchema);

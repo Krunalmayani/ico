@@ -30,38 +30,46 @@
             <div class="page-ath-form">
                 <h2 class="page-ath-heading">Sign in <small>with your TokenWiz Account</small></h2>
                 <!-- login form to create session -->
-                <form name="loginForm" method="post" action="/creatsession">
+                <%if(flash.success && flash.success.length> 0){%>
+                    <div class="alert form-control" style="padding-left: 25px; color: black; padding-top: 8px;">
+                        <%=flash.success%>
+                    </div>
+                    <%}%>
+                        <form name="loginForm" method="post" action="/creatsession">
 
-                    <input type="hidden" name="token" id="token" value="">
+                            <input type="hidden" name="token" id="token" value="">
 
-                    <div class="input-item">
-                        <input type="text" placeholder="Your Email" name="email" class="input-bordered" required>
-                    </div>
-                    <div class="input-item">
-                        <input type="password" placeholder="Password" name="password" class="input-bordered" required>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="input-item text-left">
-                            <input class="input-checkbox input-checkbox-md" id="remember-me" type="checkbox">
-                            <label for="remember-me">Remember Me</label>
+                            <div class="input-item">
+                                <input type="text" placeholder="Your Email" name="email" class="input-bordered"
+                                    required>
+                            </div>
+                            <div class="input-item">
+                                <input type="password" placeholder="Password" name="password" class="input-bordered"
+                                    required>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="input-item text-left">
+                                    <input class="input-checkbox input-checkbox-md" id="remember-me" type="checkbox">
+                                    <label for="remember-me">Remember Me</label>
+                                </div>
+                                <div>
+                                    <a href="/forgotPassword">Forgot password?</a>
+                                    <div class="gaps-2x"></div>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-primary btn-block" value="Login">
+                            <div class="sap-text"><span>Or Sign In With</span></div>
+                            <ul class="row guttar-20px guttar-vr-20px">
+                                <li class="col"><a href="/auth/google"
+                                        class="btn btn-outline btn-dark btn-google btn-block"><em
+                                                class="fab fa-google"></em><span>Google</span></a></li>
+                            </ul>
+                        </form>
+                        <div class="gaps-2x"></div>
+                        <div class="gaps-2x"></div>
+                        <div class="form-note">
+                            Don’t have an account? <a href="/signup"> <strong>Sign up here</strong></a>
                         </div>
-                        <div>
-                            <a href="/forgotPassword">Forgot password?</a>
-                            <div class="gaps-2x"></div>
-                        </div>
-                    </div>
-                    <input type="submit" class="btn btn-primary btn-block" value="Login">
-                </form>
-                <div class="sap-text"><span>Or Sign In With</span></div>
-                <ul class="row guttar-20px guttar-vr-20px">
-                    <li class="col"><a href="#" class="btn btn-outline btn-dark btn-google btn-block"><em
-                                class="fab fa-google"></em><span>Google</span></a></li>
-                </ul>
-                <div class="gaps-2x"></div>
-                <div class="gaps-2x"></div>
-                <div class="form-note">
-                    Don’t have an account? <a href="/signup"> <strong>Sign up here</strong></a>
-                </div>
             </div>
 
         </div>
@@ -75,6 +83,7 @@
     </div>
 
     <!-- JavaScript (include all script here) -->
+
     <script src="js/jquery.bundle7500.js?ver=103"></script>
     <script src="js/script7500.js?ver=103"></script>
     <script>
@@ -94,15 +103,16 @@
         }
     </script>
 
-<script>
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
+    <script>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
 
-    const token = urlParams.get('token');
-    console.log('token :', token);
+        const token = urlParams.get('token');
+        console.log('token :', token);
 
-    document.getElementById('token').value = token;
-</script>
+        document.getElementById('token').value = token;
+    </script>
 
 </body>
+
 </html>

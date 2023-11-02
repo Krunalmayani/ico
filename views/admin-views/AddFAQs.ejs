@@ -1,0 +1,158 @@
+<style>
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
+</style>
+<%- include('header') %>
+    <div class="page-content">
+        <div class="container">
+            <%if(flash.success && flash.success.length> 0){%>
+                <div class="alert form-control" style="padding-left: 25px; color: black; padding-top: 8px;">
+                    <%=flash.success%>
+                </div>
+                <%}%>
+                    <div class="card content-area">
+                        <div class="card-innr">
+                            <div class="card-head">
+                                <h4 class="card-title">FAQs</h4>
+
+                            </div>
+                            <div class="row d-flex justify-content-end p-4 guttar-vr-40px">
+
+                                <div class="col-sm-6 probtn col-lg-3"><a href="#" data-toggle="modal"
+                                        data-target="#modal-large" class="btn btn-primary">Add FAQs</a></div>
+                            </div>
+                            <div class="modal fade" id="modal-large" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-lg modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em
+                                                class="ti ti-close"></em></a>
+                                        <div class="popup-body popup-body-lg">
+                                            <div class="">
+                                                <div class="content-area card">
+                                                    <div class="card-innr card-innr-fix">
+                                                        <div class="card-head">
+                                                            <h6 class="card-title">Add New FAQ</h6>
+                                                        </div>
+                                                        <div class="gaps-1x"></div>
+                                                        <form action="/admin/AddFAQSData" method="post">
+                                                            <div class="input-item input-with-label">
+                                                                <label class="input-item-label text-exlight">FAQ
+                                                                    Question
+                                                                </label>
+                                                                <input class="input-bordered" type="text"
+                                                                    name="FAQ_Question" required>
+                                                            </div>
+                                                            <div class="input-item input-with-label">
+                                                                <label class="input-item-label text-exlight">FAQ
+                                                                    Answer
+                                                                </label>
+                                                                <input class="input-bordered" type="text"
+                                                                    name="FAQ_Answer" required>
+                                                            </div>
+                                                            <button class="btn btn-primary" type="submit">Add
+                                                                Request</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal for editing FAQ items -->
+                            <div class="modal fade" id="modal-large-edit" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-lg modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em
+                                                class="ti ti-close"></em></a>
+                                        <div class="popup-body popup-body-lg">
+                                            <div class="">
+                                                <div class="content-area card">
+                                                    <div class="card-innr card-innr-fix">
+                                                        <div class="card-head">
+                                                            <h6 class="card-title">Update FAQ</h6>
+                                                        </div>
+                                                        <div class="gaps-1x"></div>
+                                                        <form action="/admin/updateFAQSData" method="post">
+                                                            <div class="input-item input-with-label">
+                                                                <label class="input-item-label text-exlight">Update FAQ
+                                                                    Question</label>
+                                                                <input class="input-bordered" type="text"
+                                                                    name="FAQ_Question" required>
+                                                            </div>
+                                                            <div class="input-item input-with-label">
+                                                                <label class="input-item-label text-exlight">Update FAQ
+                                                                    Answer</label>
+                                                                <input class="input-bordered" type="text"
+                                                                    name="FAQ_Answer" required>
+                                                            </div>
+                                                            <button class="btn btn-primary"
+                                                                type="submit">Update</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                <div class="main-content col-lg-12">
+                                    <div class="content-area card ">
+                                        <div class="card-innr">
+                                            <div class="card-head">
+                                                <h4 class="card-title card--lg">Frequently Question Answers</h4>
+                                            </div>
+                                            <div class="content">
+                                                <div class="accordion-simple" id="faqList-1">
+                                                    <% for (var i of data) { %>
+                                                        <div class="accordion-item">
+                                                            <h6 class="accordion-heading collapsed"
+                                                                data-toggle="collapse"
+                                                                data-target="#collapse-<%= i.id %>">
+                                                                <%= i.FAQ_Question %>
+                                                            </h6>
+                                                            <div id="collapse-<%= i.id %>" class="collapse"
+                                                                data-parent="#faqList-1">
+                                                                <div class="accordion-content">
+                                                                    <p>
+                                                                        <%= i.FAQ_Answer %>
+                                                                    </p>
+                                                                    <a href="#" data-toggle="modal"
+                                                                        data-target="#modal-large-edit"
+                                                                        class="btn btn-primary"
+                                                                        onclick="handleEditButtonClick('<%= i.FAQ_Question %>', '<%= i.FAQ_Answer %>', '<%= i.id %>')">Edit</a>
+                                                                    &nbsp;
+                                                                    <a href="/admin/DeleteFAQSData/<%= i.id%>" class="btn btn-primary">Delete</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <% } %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    </div>
+    <%- include('footer') %>
+        <script>
+            function handleEditButtonClick(faqQuestion, faqAnswer, faqId) {
+                var modal = document.getElementById('modal-large-edit');
+                var questionInput = modal.querySelector('input[name="FAQ_Question"]');
+                var answerInput = modal.querySelector('input[name="FAQ_Answer"]');
+                var form = modal.querySelector('form');
+                form.action = "/admin/updateFAQSData/" + faqId;
+                questionInput.value = faqQuestion;
+                answerInput.value = faqAnswer;
+            }
+        </script>

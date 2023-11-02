@@ -4,7 +4,7 @@ const USER = require("../models/User");
 const multer = require('multer');
 const path = require('path');
 
-const storage = multer.diskStorage({
+const storage = multer.diskStorage({ 
     destination: function (req, file, cb) {
         cb(null, path.join(__dirname, '..', 'uploads', 'KYC_DOC'));
     },
@@ -84,7 +84,7 @@ module.exports.Kyc_Data = async function (req, res) {
                 KYC_Doc = '/uploads/KYC_DOC' + "/" + req.files['KYC_Doc'][0].filename;
             }
             if (req.files['KYC_Front_Image']) {
-                KYC_Front_Image = '/uploads/KYC_DOC' + "/" + req.files['KYC_Front_Image'][0].filename;
+                KYC_Front_Image ='/uploads/KYC_DOC' + "/" + req.files['KYC_Front_Image'][0].filename;
             }
 
             if (req.files['KYC_Back_Image']) {
@@ -96,7 +96,7 @@ module.exports.Kyc_Data = async function (req, res) {
                 First_Name,
                 Last_Name,
                 Email,
-                Phone,
+                Phone,   
                 DOB,
                 Address_1,
                 Address_2,
@@ -119,14 +119,16 @@ module.exports.Kyc_Data = async function (req, res) {
                     console.log('User not found');
                     return res.status(400).json({ message: 'User not found' });
                 }
+                req.flash('success', 'KYC request send successfully');
                 return res.redirect('/dashboard');
             }
-        });
+        }); 
     } catch (err) {
         console.log('Error:', err);
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
+
 
 module.exports.kycListDetail = async function (req, res) {
     const id = req.params.id;

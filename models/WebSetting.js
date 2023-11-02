@@ -33,6 +33,12 @@ const WebSettingSchema = mongoose.Schema({
     HomePageLink: {
         type: String,
     },
+    Stripe_Publishable_Key: {
+      type: String,  
+    },
+    Stripe_Secret_Key: {
+        type: String,
+    },
     Tokensymbol: {
         type: String,
 

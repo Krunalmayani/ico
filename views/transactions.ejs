@@ -27,29 +27,86 @@
                                                 <span class="lead tnx-id">
                                                     <%= i.Transaction_submit_Time.toDateString() %>
                                                 </span>
-
                                             </div>
                                         </div>
                                     </td>
                                     <td class="data-col dt-amount">
                                         <span class="lead amount-pay">$<%= i.Usd %></span>
-
                                     </td>
                                     <td class="data-col dt-usd-amount">
-                                        <span class="lead amount-pay">
-                                            <%= i.Pay_Amount %>
-                                        </span>
+                                        <% if (i.Method==="Card" ) { %>
+                                            <span class="lead amount-pay">
+                                                Card Payment
+                                            </span>
+                                            <% } else { %>
+                                                <%= i.Pay_Amount %>
+
+                                                    <% } %>
                                         <span class="sub sub-symbol">
-                                            <%= i.Method %> <em class="fas fa-info-circle" data-toggle="tooltip"
-                                                    data-placement="bottom"></em>
+                                            <% if (i.Method==="ethereum" ) { %>
+                                                <a style="text-transform: capitalize; font-weight: bold" href="https://etherscan.io/address/<%= i.Crypto_Address %>"
+                                                    target="_blank">
+                                                    <%= i.Method %>
+                                                    <em style="font-size: 10px; font-weight: 900;"
+                                                            class="ti ti-search"></em>
+                                                </a>
+                                                <% } else if (i.Method==="bitcoin" ) { %>
+                                                    <a  style="text-transform: capitalize; font-weight: bold" target="_blank"
+                                                        href="https://bitaps.com/<%= i.Crypto_Address %>">
+                                                        <%= i.Method %>
+                                                        <em style="font-size: 10px; font-weight: 900;"
+                                                            class="ti ti-search"></em>
+                                                    </a>
+                                                    <% } else if (i.Method==="solana" ) { %>
+
+                                                        <a  style="text-transform: capitalize; font-weight: bold;" href="https://solscan.io/search?q=<%= i.Crypto_Address %>" target="_blank">
+                                                            <%= i.Method %>
+                                                            <em style="font-size: 10px; font-weight: 900;"
+                                                            class="ti ti-search"></em>
+                                                        </a>
+                                                        <% } else if (i.Method==="USDT(ERC20)" ) { %>
+                                                            <a style="font-weight: bold" target="_blank"
+                                                                href="https://etherscan.io/token/0xdac17f958d2ee523a2206206994597c13d831ec7?a=<%= i.Crypto_Address %>">
+                                                                <%= i.Method %>
+                                                                <em style="font-size: 10px; font-weight: 900;"
+                                                            class="ti ti-search"></em>
+                                                            </a>
+                                                            <% } else if (i.Method==="USDT(BEP20)" ) { %>
+
+                                                                <a style="font-weight: bold" target="_blank" href="https://bscscan.com/token/0x55d398326f99059ff775485246999027b3197955?a=<%= i.Crypto_Address %>">
+                                                                    <%= i.Method %>
+                                                                    <em style="font-size: 10px; font-weight: 900;"
+                                                            class="ti ti-search"></em>
+                                                                </a>
+                                                                <% } else if (i.Method==="USDT(TRC20)" ) { %>
+                                                                    <a style="font-weight: bold" target="_blank"
+                                                                        href="https://tronscan.org/#/address/<%= i.Crypto_Address %>">
+                                                                        <%= i.Method %>
+                                                                        <em style="font-size: 10px; font-weight: 900;"
+                                                            class="ti ti-search"></em>
+                                                                    </a>
+                                                                    <% } else if (i.Method==="USDC(ERC20)" ) { %>
+
+                                                                        <a style="font-weight: bold"  href="https://etherscan.io/token/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48?a=<%= i.Crypto_Address %>">
+                                                                            <%= i.Method %>
+                                                                            <em style="font-size: 10px; font-weight: 900;"
+                                                            class="ti ti-search"></em>
+                                                                        </a>
+                                                                        <% } else if (i.Method==="Card" ) { %>
+                                                                            <h4 style="font-weight: bold; font-size: 12px;">
+                                                                                <%= i.Pay_Transaction_id%>
+                                                                            </h3>
+                                                                        <% } else { %>
+                                                                            
+                                                                            <% } %>
                                         </span>
                                     </td>
                                     <td class="data-col dt-coin dt-account">
                                         <span class="lead user-info">
-                                            <%= i.Token %> 
+                                            <%= i.Token %>
                                         </span>
                                         <span class="sub sub-symbol">
-                                             <%= webSettingData.Tokensymbol %>
+                                            <%= webSettingData.Tokensymbol %>
                                         </span>
                                     </td>
                                     <td class="data-col dt-bonus dt-token">
@@ -58,26 +115,30 @@
                                         </span>
                                         <span class="sub sub-symbol">
                                             <%= webSettingData.Tokensymbol %>
-                                       </span>
+                                        </span>
                                     </td>
                                     <td class="data-col dt-token">
                                         <span class="lead token-amount">
-                                            <%= i.Total_Token %> 
+                                            <%= i.Total_Token %>
                                         </span>
                                         <span class="sub sub-symbol">
                                             <%= webSettingData.Tokensymbol %>
-                                       </span>
+                                        </span>
                                     </td>
                                     <td class="data-col dt-type">
                                         <% if (i.Status==='Pending' ) { %>
                                             <span class="dt-status-md badge btn btn-warning badge-md">Pending</span>
                                             <span class="dt-status-sm badge badge-sq btn btn-warning badge-md">P</span>
                                             <% } else if (i.Status==='Approved' ) { %>
-                                                <span class="dt-status-md badge btn btn-success badge-md">Approved</span>
-                                                <span class="dt-status-sm badge badge-sq btn btn-success badge-md">A</span>
+                                                <span
+                                                    class="dt-status-md badge btn btn-success badge-md">Approved</span>
+                                                <span
+                                                    class="dt-status-sm badge badge-sq btn btn-success badge-md">A</span>
                                                 <% } else if (i.Status==='Rejected' ) { %>
-                                                    <span class="dt-status-md badge btn btn-danger badge-md">Rejected</span>
-                                                    <span class="dt-status-sm badge badge-sq btn btn-danger badge-md">R</span>
+                                                    <span
+                                                        class="dt-status-md badge btn btn-danger badge-md">Rejected</span>
+                                                    <span
+                                                        class="dt-status-sm badge badge-sq btn btn-danger badge-md">R</span>
                                                     <% } %>
                                     </td>
                                 </tr>

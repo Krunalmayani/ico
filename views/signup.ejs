@@ -28,7 +28,12 @@
             </div>
             <div class="page-ath-form">
                 <h2 class="page-ath-heading">Sign up <small>Create New Account</small></h2>
-                <form name="signupForm" method="post" action="/UserSignUpData" onsubmit="return validateForm()">
+                <%if(flash.success && flash.success.length> 0){%>
+                    <div class="alert form-control" style=" margin-bottom: 15px; color:black; padding-top: 8px; padding-bottom: 20px;">
+                        <%=flash.success%>
+                    </div>
+                    <%}%>
+                <form name="signupForm" method="post" action="/UserSignUpData" onsubmit="return validateForm()" style="padding-top: 12px;">
                     <div class="input-item">
                         <input type="text" placeholder="Your First Name" name="Fname" class="input-bordered">
                     </div>
@@ -306,8 +311,9 @@
                 </form>
                 <div class="sap-text"><span>Or Sign Up With</span></div>
                 <ul class="row guttar-20px guttar-vr-20px">
-                    <li class="col"><a href="#" class="btn btn-outline btn-dark btn-google btn-block"><em
-                                class="fab fa-google"></em><span>Google</span></a></li>
+                    <li class="col"><a href="/auth/google"
+                            class="btn btn-outline btn-dark btn-google btn-block"><em
+                                    class="fab fa-google"></em><span>Google</span></a></li>
                 </ul>
                 <div class="gaps-2x"></div>
                 <div class="gaps-2x"></div>

@@ -37,6 +37,14 @@
                                     <td class="data-col dtadd dt-user d-flex  ">
                                         <span class="lead text-truncate token-amount user-name">
                                             <%= i.Ethereum_Address %>
+                                            <span class="sub sub-symbol">
+                                                <a style="text-transform: capitalize; font-weight: bold" href="https://etherscan.io/address/<%= i.Ethereum_Address %>"
+                                                    target="_blank">
+                                                    Ethereum
+                                                    <em style="font-size: 10px; font-weight: 900;"
+                                                            class="ti ti-search"></em>
+                                                </a>
+                                            </span>
                                         </span>
                                         <span class="token-amount" id="ethereumval_<%= i.id %>"></span>
                                     </td>

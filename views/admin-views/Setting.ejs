@@ -63,6 +63,22 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="input-item input-with-label">
+                                            <label class="input-item-label text-exlight">Stripe Publishable Key</label>
+                                            <input class="input-bordered" type="text" name="Stripe_Publishable_Key"
+                                                value="<%= data[0].Stripe_Publishable_Key %>" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-item input-with-label">
+                                            <label class="input-item-label text-exlight">Stripe Secret Key</label>
+                                            <input class="input-bordered" type="text" name="Stripe_Secret_Key"
+                                                value="<%= data[0].Stripe_Secret_Key %>" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-item input-with-label">
                                             <label class="input-item-label text-exlight">Private Policy Link</label>
                                             <input class="input-bordered" type="text" name="Private_Policy"
                                                 value="<%= data[0].Private_Policy %>" required>
